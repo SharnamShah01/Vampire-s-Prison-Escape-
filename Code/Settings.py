@@ -1,0 +1,3 @@
+import pygame
+
+WIN_WIDTH,WIN_HEIGHT = 1200,800
