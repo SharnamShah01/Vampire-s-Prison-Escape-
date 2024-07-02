@@ -18,7 +18,7 @@ class TREESprtite(pygame.sprite.Sprite):
 
 class PlayerSprite(Sprite):
     def __init__(self,pos,groups,collsion_sprtie):
-        self.image = pygame.Surface((32,32))
+        self.image = pygame.Surface((16,16))
         super().__init__(pos,self.image,groups)
         self.collision_sprite = collsion_sprtie
         
@@ -46,7 +46,7 @@ class PlayerSprite(Sprite):
     
     def collsions(self,direction):
         for sprite in self.collision_sprite:
-            if sprite.rect.colliderect(self.rect):
+            if pygame.sprite.collide_mask(self,sprite):            #sprite.rect.colliderect(self.rect):
                 if direction == 'horizontal':
                     if self.direction.x> 0 :self.rect.right = sprite.rect.left
                     if self.direction.x <0: self.rect.left = sprite.rect.right
@@ -108,9 +108,14 @@ class DoorSprite(Sprite):
     def __init__(self,pos,surf,groups):
         super().__init__(pos,surf,groups)
 
-class KeySprite(pygame.sprite.Sprite):
-    def __init__(self,pos,surf,groups):
+class ChestSprite(pygame.sprite.Sprite):
+    def __init__(self,pos,image,groups):
         super().__init__(groups)
-        
+        self.image = image
+        self.rect = self.image.get_frect(topleft = pos)
 
+        
+class GuardSprite(Sprite):
+    def __init__(self,pos,image,groups):
+        super().__init__(pos,image,groups)
     
