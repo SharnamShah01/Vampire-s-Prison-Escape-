@@ -1,0 +1,114 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/Dungeon_map.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/Dungeon_map.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1725.6666666666665,
+                "y": 109.66666666666669
+            }
+        },
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/tsx files dungeon/Dungeion ground.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/tsx files dungeon/door.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/tsx files/Deoration.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/tsx files/Dungeon floor.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/tsx files/Main level.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/learnin pygame/vampire survivor/data/maps/world.tmx": {
+            "scale": 0.2624375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1125.9823767563703,
+                "y": 1587.0445344129555
+            }
+        },
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/learnin pygame/vampire survivor/data/tilesets/Objects.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/learnin pygame/vampire survivor/data/tilesets/world_tileset.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "Game map.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3246,
+                "y": 1266
+            }
+        },
+        "tsx files/Ground.tsx": {
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "tsx/Ground smaller.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "tsx/Ground.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "tsx/Trees.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/Tiles",
+    "map.height": 30,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
+    "map.width": 60,
+    "openFiles": [
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/Dungeon_map.tmx",
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/tsx files dungeon/Dungeion ground.tsx",
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/tsx files dungeon/door.tsx"
+    ],
+    "project": "Game map.tiled-project",
+    "recentFiles": [
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/tsx files dungeon/door.tsx",
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/tsx files dungeon/Dungeion ground.tsx",
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/Dungeon_map.tmx",
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/tsx files/Main level.tsx",
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/tsx files/Deoration.tsx",
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/tsx files/Dungeon floor.tsx",
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/learnin pygame/vampire survivor/data/maps/world.tmx",
+        "Game map.tmx",
+        "tsx/Trees.tsx",
+        "tsx/Ground smaller.tsx",
+        "tsx/Ground.tsx",
+        "tsx files/Ground.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    }
+}
