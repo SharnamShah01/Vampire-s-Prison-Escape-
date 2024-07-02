@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="60" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="50">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="60" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="51">
  <tileset firstgid="1" source="tsx files dungeon/Dungeion ground.tsx"/>
  <tileset firstgid="57" source="tsx files dungeon/room walls.tsx"/>
  <layer id="1" name="Ground" width="60" height="30">
@@ -46,7 +46,7 @@
 0,1610612793,0,0,0,0,0,0,0,0,0,2684354617,0,3221225509,57,57,57,57,42,57,57,57,2684354597,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,7,7,7,0,
 0,0,3221225529,3221225529,3221225529,3221225529,0,3221225529,3221225529,3221225529,3221225529,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,14,14,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,0,
-0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,14,14,7,0,
+0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,7,14,14,7,0,
 0,0,0,0,0,0,42,0,0,0,0,0,0,0,0,0,0,0,42,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,14,7,7,0,
 0,0,3758096441,0,0,0,0,0,0,0,536870969,0,0,2684354617,0,0,0,0,0,0,0,0,1610612793,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,14,7,7,0,
 0,0,3758096441,0,0,0,0,0,0,0,536870969,0,0,2684354617,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,7,14,7,0,
@@ -74,49 +74,46 @@
   <object id="5" name="Player" x="109.333" y="111.667">
    <point/>
   </object>
-  <object id="6" name="Guards" x="269" y="243.667">
+  <object id="6" name="Guards0" x="269" y="243.667">
    <point/>
   </object>
-  <object id="7" name="Guards" x="133.667" y="240.667">
+  <object id="7" name="Guards0" x="133.667" y="240.667">
    <point/>
   </object>
   <object id="8" name="Exit point1" gid="42" x="193.333" y="192" width="32" height="32"/>
   <object id="9" name="interact" gid="21" x="284" y="128" width="32" height="32"/>
   <object id="11" name="interact" gid="21" x="1447" y="122" width="32" height="32"/>
-  <object id="12" name="interact" gid="21" x="1534" y="291" width="32" height="32"/>
   <object id="20" name="Exit point2" gid="42" x="1536.5" y="639" width="32" height="32"/>
   <object id="22" name="Map exit" gid="35" x="1663.63" y="31.875" width="32" height="32"/>
-  <object id="23" name="Guards1" x="171" y="698">
+  <object id="23" name="Guards" x="171" y="698">
    <point/>
   </object>
-  <object id="24" name="Guards2" x="880" y="400">
+  <object id="24" name="Guards" x="880" y="400">
    <point/>
   </object>
-  <object id="25" name="Guards2" x="1098" y="80">
+  <object id="25" name="Guards" x="1079.33" y="104">
    <point/>
   </object>
-  <object id="26" name="Guards4" x="1540" y="479">
+  <object id="26" name="Guards" x="1540" y="479">
    <point/>
   </object>
-  <object id="27" name="Guards3" x="1526" y="184">
+  <object id="27" name="Guards" x="1526" y="184">
    <point/>
   </object>
-  <object id="28" name="Guards4" x="1678" y="263">
+  <object id="28" name="Guards" x="1683.5" y="273">
    <point/>
   </object>
   <object id="30" name="Rectangle" x="-10.6667" y="-40" width="1948.86" height="70.622"/>
   <object id="34" name="Rectangle" x="-25.1477" y="928.382" width="1948.86" height="70.622"/>
   <object id="35" name="Rectangle" x="-27.0194" y="-64.8466" width="57.6414" height="1084.38"/>
   <object id="37" name="Rectangle" x="1768.87" y="-46.834" width="57.6414" height="1084.38"/>
-  <object id="38" name="RECTGuard1" x="410" y="602" width="114" height="114"/>
-  <object id="40" name="RECTGuard2" x="832" y="421.333">
-   <polygon points="0,0 96,-1.33333 98.6667,-266.667 450.667,-265.333 446.667,-393.333 -4,-388"/>
-  </object>
-  <object id="41" name="RECTGaurd3" x="1382.67" y="48" width="233.333" height="276"/>
-  <object id="44" name="RECTGuard4" x="1481.33" y="376" width="240" height="281.333"/>
-  <object id="45" name="RECTGuard4" x="1650.67" y="229.333" width="62.6667" height="220"/>
+  <object id="38" name="RECTGuard" x="126" y="602" width="398" height="322"/>
+  <object id="41" name="RECTGuard" x="1354.67" y="34" width="261.333" height="290"/>
+  <object id="44" name="RECTGuard" x="1481.33" y="376" width="240" height="281.333"/>
+  <object id="45" name="RECTGuard" x="1650.67" y="229.333" width="62.6667" height="220"/>
   <object id="48" name="Exit point1 rect" x="186.75" y="155.25" width="44" height="41"/>
-  <object id="49" name="Exit point2 rect" x="1531.82" y="603.455" width="44.5455" height="39.6364"/>
+  <object id="49" name="Exit point2 rect" x="1522.73" y="603.455" width="64.3636" height="74.9205"/>
+  <object id="50" name="RECTGuard" x="826.667" y="38.6667" width="496" height="508"/>
  </objectgroup>
  <layer id="6" name="Maze walls" width="60" height="30">
   <data encoding="csv">

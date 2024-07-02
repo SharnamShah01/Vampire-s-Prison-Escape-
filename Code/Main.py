@@ -22,6 +22,7 @@ class Game:
         self.door_sprites1 = pygame.sprite.Group()
         self.Guard1_rect_group = pygame.sprite.Group()
 
+
         # guard groups
         self.guard_image = pygame.Surface((16,16))
 
@@ -39,7 +40,6 @@ class Game:
         
 
         # Dungeon:
-        self.door = []
         self.key =0;
         # load map
         self.load_dungeon()
@@ -58,11 +58,11 @@ class Game:
 
     def door1_collilde(self):
         if self.player.rect.colliderect(self.EP1R):
-            print('door collide')
             self.collision_sprities.remove(self.door)        
             self.key = self.key-1
 
     def door2_collilde(self):
+        print('door2 called')
         if self.player.rect.colliderect(self.EP2R):
             self.collision_sprities.remove(self.door2)        
             self.key = self.key-1
@@ -85,12 +85,14 @@ class Game:
 
             if obj.name == 'Exit point2 rect':
                 self.EP2R = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
+                print('EP2R MADE')
             
 
             if obj.name == 'Exit point1':
                 self.door = DoorSprite((obj.x,obj.y),obj.image,(self.all_sprites,self.door_sprites1,self.collision_sprities))
 
             if obj.name == 'Exit point2':
+                print('door2 made')
                 self.door2 = DoorSprite((obj.x,obj.y),obj.image,(self.all_sprites,self.door_sprites1,self.collision_sprities))
                 
             if obj.name == 'interact':
@@ -99,16 +101,16 @@ class Game:
             if obj.name == 'Player':
                 self.player = PlayerSprite((obj.x,obj.y),self.all_sprites,self.collision_sprities)
 
-            if obj.name == 'Guards':
+            if obj.name == 'Guards0':
                 GuardSprite((obj.x,obj.y),self.guard_image,(self.all_sprites))
 
-            if obj.name == 'RECTGuard1':
+            if obj.name == 'RECTGuard':
                 Grect = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
                 Gsprite = pygame.sprite.Sprite()
                 Gsprite.rect = Grect
                 self.Guard1_rect_group.add(Gsprite)
 
-            if obj.name == 'Guards1':
+            if obj.name == 'Guards':
                 self.gaurd1_pos.append((obj.x,obj.y))
                 
             if obj.name == 'Rectangle':
@@ -144,7 +146,10 @@ class Game:
     def spawn_Guards(self):
         for sprite in self.Guard1_rect_group:
             if sprite.rect.colliderect(self.player.rect):
-                GuardSprite(self.gaurd1_pos[0],self.guard_image,(self.all_sprites))
+                for pos in self.gaurd1_pos:
+                    if sprite.rect.collidepoint(pos):
+
+                        GuardSprite(pos,self.guard_image,self.all_sprites)
 
 
     def run(self):
