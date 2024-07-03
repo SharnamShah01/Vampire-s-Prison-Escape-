@@ -9,13 +9,18 @@ class Game:
     def __init__(self):
         pygame.init()
         pygame.display.set_mode((WIN_WIDTH,WIN_HEIGHT))
-        self.display_surface = pygame.display.get_surface()
+        self.screen = pygame.display.get_surface()
+        self.display = pygame.Surface((500,400))
         self.clock = pygame.time.Clock()
         self.running = True
 
 
+        # conditions
+        self.forest = False
+        self.out_of_cell = True
+
         # Groups:
-        self.all_sprites = ALLSprites()
+        self.all_sprites = CameraGroup()
         self.collision_sprities = pygame.sprite.Group()
         self.enemies_sprites = pygame.sprite.Group()
         self.chest_sprites = pygame.sprite.Group()
@@ -36,6 +41,9 @@ class Game:
         # enemy spawn timer
         self.enemy_event = pygame.event.custom_type()
         self.enemy_timer = pygame.time.set_timer(self.enemy_event,ENEMY_SPAWN_RATE)
+
+        self.dungeon_enemy_event = pygame.event.custom_type()
+        self.dungeon_enemy_event_timer = pygame.time.set_timer(self.dungeon_enemy_event,DUN_ENEMY_SPAWN_RATE)
 
         
 
@@ -60,9 +68,9 @@ class Game:
         if self.player.rect.colliderect(self.EP1R):
             self.collision_sprities.remove(self.door)        
             self.key = self.key-1
+            self.out_of_cell = True
 
     def door2_collilde(self):
-        print('door2 called')
         if self.player.rect.colliderect(self.EP2R):
             self.collision_sprities.remove(self.door2)        
             self.key = self.key-1
@@ -71,6 +79,7 @@ class Game:
         dungeon_map = load_pygame(join('Data', 'Dungeon map','Dungeon Tiles', 'Dungeon_map.tmx'))
 
         for x,y,image in dungeon_map.get_layer_by_name('Ground').tiles():
+            
             Sprite((x*DUN_TILE_SIZE,y*DUN_TILE_SIZE),image,self.all_sprites)
 
         for x,y,image in dungeon_map.get_layer_by_name('Rooms').tiles():
@@ -79,6 +88,9 @@ class Game:
         for obj in dungeon_map.get_layer_by_name('Entities'):
             if obj.name == 'Map exit':
                 Sprite((obj.x,obj.y),obj.image,(self.all_sprites,self.map_exit))
+
+            if obj.name == 'Map exit rect':
+                self.MER = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
             
             if obj.name == 'Exit point1 rect':
                 self.EP1R = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
@@ -87,7 +99,6 @@ class Game:
                 self.EP2R = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
                 print('EP2R MADE')
             
-
             if obj.name == 'Exit point1':
                 self.door = DoorSprite((obj.x,obj.y),obj.image,(self.all_sprites,self.door_sprites1,self.collision_sprities))
 
@@ -100,9 +111,6 @@ class Game:
                 
             if obj.name == 'Player':
                 self.player = PlayerSprite((obj.x,obj.y),self.all_sprites,self.collision_sprities)
-
-            if obj.name == 'Guards0':
-                GuardSprite((obj.x,obj.y),self.guard_image,(self.all_sprites))
 
             if obj.name == 'RECTGuard':
                 Grect = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
@@ -147,10 +155,9 @@ class Game:
         for sprite in self.Guard1_rect_group:
             if sprite.rect.colliderect(self.player.rect):
                 for pos in self.gaurd1_pos:
-                    if sprite.rect.collidepoint(pos):
-
-                        GuardSprite(pos,self.guard_image,self.all_sprites)
-
+                    if sprite.rect.collidepoint(pos) and self.dungeon_enemy_event and self.out_of_cell == True:
+                        GuardSprite(pos,self.guard_image,self.all_sprites,self.player)
+                        
 
     def run(self):
         
@@ -158,38 +165,49 @@ class Game:
             # dt
             dt = self.clock.tick()/1000
 
-            # event loop
+            # event 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
                 
-                # if event.type == self.enemy_event:
-                #     EnemySprite(self.enemy_pos,(self.enemies_sprites,self.all_sprites),self.player,self.collision_sprities)
+                if event.type == self.enemy_event and self.forest == True:
+                    EnemySprite(self.enemy_pos,(self.enemies_sprites,self.all_sprites),self.player,self.collision_sprities)
+
+                if event.type == self.dungeon_enemy_event and self.forest == False:
+                    self.spawn_Guards()
+
+                if event.type == pygame.MOUSEWHEEL:
+                    self.all_sprites.zoom_scale += event.y*0.03
                     
 
             
+            # change map:
+            if self.forest == False:
+                if  self.MER.colliderect(self.player):
+                    self.forest = True
+                    self.load_map()
 
+
+                if self.chest_colision():
+                    self.key += 1
+                    print(self.key)
+
+                 # see key_updation
+                if self.key==1:
+                    self.door1_collilde()
+                    self.door2_collilde()
+
+                # self.spawn_Guards()
+
+                
 
             # update
             self.all_sprites.update(dt)
-            self.spawn_Guards()
-
-            # see key_updation
-            
-            if self.chest_colision():
-            
-                self.key += 1
-                print(self.key)
-
-            if self.key==1:
-                self.door1_collilde()
-                self.door2_collilde()
-            
-            
 
             # draw
-            self.display_surface.fill(BG_COLOR)
+            self.screen.fill(BG_COLOR)
             self.all_sprites.draw(self.player.rect.center)
+
 
 
             pygame.display.update() 

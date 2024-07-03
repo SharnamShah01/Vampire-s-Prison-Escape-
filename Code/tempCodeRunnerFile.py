@@ -1,2 +1,2 @@
-def spawn_Guards(self):
-    #     for sprite in self.Guard_rect_group
+scaled_display = pygame.transform.scale(display, self.display_surface.get_size())
+            # self.screen.blit(scaled_display, (0, 0))
