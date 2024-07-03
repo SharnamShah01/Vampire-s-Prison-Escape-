@@ -171,6 +171,8 @@ class Game:
         if (key[pygame.K_q] or button[2]) and ( (pygame.time.get_ticks() - self.bloodthrow_prev) >= PLAYER_BLOOD_COOLDDOWN):
             pos = self.player.rect.center
             self.bloodthrow_prev = pygame.time.get_ticks()
+            blood_throw_sound = pygame.mixer.Sound(join('sound', 'blood throw.mp3'))
+            blood_throw_sound.play()
             BloodThrow(pos,(self.Blood_throws,self.all_sprites),self.player)
 
     def blood_enemy_collision(self):
@@ -186,6 +188,8 @@ class Game:
             if enemies_hit:
                 sprite.kill()
                 for enemy in enemies_hit:
+                    dun_enemy_sound = pygame.mixer.Sound(join('sound', 'Dun enemy death.mp3'))
+                    dun_enemy_sound.play()
                     enemy.health -= BLOOD_THROW_DAMAGE
 
     def run(self):
@@ -220,6 +224,14 @@ class Game:
                 if  self.MER.colliderect(self.player):
                     self.forest = True
                     self.enemies_sprites.empty()
+                    self.all_sprites.empty()
+                    self.collision_sprities.empty() 
+                    self.enemies_sprites.empty()
+                    self.chest_sprites.empty()
+                    self.door_sprites1.empty()
+                    self.Guard1_rect_group.empty()
+                    self.Blood_throws.empty()
+
                     self.load_map()
 
 

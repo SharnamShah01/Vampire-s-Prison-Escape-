@@ -90,9 +90,7 @@ class PlayerSprite(Sprite):
         self.health = PLAYER_HEALTH
         self.damage = PLAYER_DAMAGE
 
-        self.attack = False
-        self.attack_cooldown = PLAYER_ATTACK_COOLDOWN #can attack once only 500ms
-        self.prev_attak =0
+        self.punch_prev = 0
 
         self.Blood_throw = False
         self.Blood_cooldown = PLAYER_BLOOD_COOLDDOWN
@@ -165,28 +163,43 @@ class PlayerSprite(Sprite):
                     if self.direction.y <0: self.rect.top = sprite.rect.bottom
                     if self.direction.y >0: self.rect.bottom = sprite.rect.top
 
+        
+                
+    def player_punch(self):
+        key_inputs = pygame.key.get_pressed()
+        mouse_inputs = pygame.mouse.get_pressed()
         for sprite in self.enemy_sprite_group:
             if pygame.sprite.collide_mask(self,sprite):
-                if self.attack == True:
+                if (key_inputs[pygame.K_e] or mouse_inputs[0]) and pygame.time.get_ticks() - self.punch_prev>= PLAYER_PUNCH_COOLDOWN :
                     sprite.health -= self.damage
+                    self.punch_prev = pygame.time.get_ticks()
                     if sprite.health <=0:
                         sprite.kill()
-                elif pygame.time.get_ticks() - sprite.prev_attack >= sprite.cooldown: 
+                else:
                     self.health -= sprite.damage
-                    sprite.prev_attack = pygame.time.get_ticks()
-
-        
+                    
+     
 
     def health_bar(self,display_at):
         ratio = self.health/PLAYER_HEALTH
-        pygame.draw.rect(display_at, 'red' , (100,50,100,5))
-        pygame.draw.rect(display_at, 'green' , (100,50,100*ratio,5))
+        health_font = pygame.font.Font(None,PLAYER_FONT_SIZE)
+        health_surf = health_font.render('Health',True,PLAYER_HEALTH_COLOR)
+        health_rect = health_surf.get_frect(topleft = PLAYER_HEALTH_FONT_POS)
+        display_at.blit(health_surf,health_rect)
+        pygame.draw.rect(display_at, 'red' , (190,38,100,5))
+        pygame.draw.rect(display_at, 'green' , (190,38,100*ratio,5))
 
 
     def update(self,dt):
         self.input()
         self.move(dt)
         self.animate(dt)
+        self.player_punch()
+
+        
+
+
+       
 
 
 class EnemySprite(Sprite):
