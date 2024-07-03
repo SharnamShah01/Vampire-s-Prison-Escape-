@@ -25,6 +25,7 @@ class Game:
         self.chest_sprites = pygame.sprite.Group()
         self.door_sprites1 = pygame.sprite.Group()
         self.Guard1_rect_group = pygame.sprite.Group()
+        self.Blood_throws = pygame.sprite.Group()
 
 
         # guard groups
@@ -43,6 +44,8 @@ class Game:
 
         self.dungeon_enemy_event = pygame.event.custom_type()
         self.dungeon_enemy_event_timer = pygame.time.set_timer(self.dungeon_enemy_event,DUN_ENEMY_SPAWN_RATE)
+
+        self.bloodthrow_prev =0
 
         
 
@@ -160,8 +163,31 @@ class Game:
                 for pos in self.gaurd1_pos:
                     if sprite.rect.collidepoint(pos) and self.dungeon_enemy_event and self.out_of_cell == True:
                         GuardSprite(pos,self.guard_image,(self.all_sprites,self.enemies_sprites),self.player,self.collision_sprities)
-                        
-    
+
+    def blood_throw(self):
+        key = pygame.key.get_pressed()
+        button = pygame.mouse.get_pressed()
+
+        if (key[pygame.K_q] or button[2]) and ( (pygame.time.get_ticks() - self.bloodthrow_prev) >= PLAYER_BLOOD_COOLDDOWN):
+            pos = self.player.rect.center
+            self.bloodthrow_prev = pygame.time.get_ticks()
+            BloodThrow(pos,(self.Blood_throws,self.all_sprites),self.player)
+
+    def blood_enemy_collision(self):
+        for sprite in self.Blood_throws:
+            collide_with_map = pygame.sprite.spritecollide(sprite,self.collision_sprities,False)
+            if collide_with_map:
+                sprite.kill()
+
+            
+
+        for sprite in self.Blood_throws:
+            enemies_hit =  pygame.sprite.spritecollide(sprite,self.enemies_sprites,True)
+            if enemies_hit:
+                sprite.kill()
+                for enemy in enemies_hit:
+                    enemy.health -= BLOOD_THROW_DAMAGE
+
     def run(self):
         
         while self.running:
@@ -181,6 +207,11 @@ class Game:
 
                 if event.type == pygame.MOUSEWHEEL:
                     self.all_sprites.zoom_scale += event.y*0.03
+
+                # if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+                #     if pygame.mouse.get_pressed()[2] or event.key == pygame.K_q :
+                #         self.blood_throw()
+                        
                     
 
             
@@ -207,11 +238,13 @@ class Game:
 
             # update
             self.all_sprites.update(dt)
+            self.blood_enemy_collision()
 
             # draw
             self.screen.fill(BG_COLOR)
             self.all_sprites.draw(self.player.rect.center)
             self.player.health_bar(self.screen)
+            self.blood_throw()
 
             if self.forest == False:
                 self.display_key()

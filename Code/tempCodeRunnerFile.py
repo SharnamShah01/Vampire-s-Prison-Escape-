@@ -1,2 +1,3 @@
-scaled_display = pygame.transform.scale(display, self.display_surface.get_size())
-            # self.screen.blit(scaled_display, (0, 0))
+if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+                #     if pygame.mouse.get_pressed()[2] or event.key == pygame.K_q :
+                #         self.blood_throw()

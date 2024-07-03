@@ -1,5 +1,4 @@
-from cmath import rect
-from tkinter import Frame
+from math import atan2,degrees
 from Settings import *
 from random import choice
 
@@ -16,7 +15,66 @@ class TREESprtite(pygame.sprite.Sprite):
         self.image = image
         self.rect = self.image.get_frect(topleft = pos)
 
+class BloodThrow(pygame.sprite.Sprite):
+    def __init__(self,pos,groups,player):
+        super().__init__(groups)
+        self.image = pygame.image.load(join('images','Vampire', 'blood charge','down','0.png'))
+        self.rect = self.image.get_frect(center = pos)
+        
+        self.speed = BLOOD_THROW_SPEED
+        self.spawn_time= pygame.time.get_ticks()
+        self.lifetime = 2000
+        self.frames =0  
 
+        if player.direction.x> 0:
+            self.folder = 'right'
+        if player.direction.x < 0:
+            self.folder = 'left'
+        if player.direction.y < 0:
+            self.folder = 'up'
+        if player.direction.y > 0:
+            self.folder = 'down'
+        
+        if player.direction.x == 0 and player.direction.y ==0:
+            if player.folder == 'stand up':
+                self.folder = 'up'
+            if player.folder == 'stand right':
+                self.folder = 'right'
+            if player.folder == 'stand down':
+                self.folder = 'down'
+            if player.folder == 'stand left':
+                self.folder = 'left'
+        
+
+
+    def animate(self,dt):
+        
+
+        self.frames += 5*dt
+        self.image = pygame.image.load(join('images','Vampire', 'blood charge',self.folder,f'{int(self.frames % 3)}.png'))
+        self.rect = self.image.get_frect(center = self.rect.center)
+
+
+    def move(self,dt):
+
+        if self.folder == 'right':
+            self.rect.x += self.speed*dt
+        if self.folder == 'left':
+            self.rect.x -= self.speed*dt
+        if self.folder == 'down':
+            self.rect.y += self.speed*dt
+        if self.folder == 'up':
+            self.rect.y -= self.speed*dt
+
+        if pygame.time.get_ticks() - self.spawn_time >= self.lifetime:
+            self.kill()
+
+
+    def update(self,dt):
+        self.move(dt)
+        self.animate(dt)
+        
+        
 
 class PlayerSprite(Sprite):
     def __init__(self,pos,groups,collsion_sprtie,enemy_sprites):
@@ -34,7 +92,11 @@ class PlayerSprite(Sprite):
 
         self.attack = False
         self.attack_cooldown = PLAYER_ATTACK_COOLDOWN #can attack once only 500ms
-        self.prev_attak =0;
+        self.prev_attak =0
+
+        self.Blood_throw = False
+        self.Blood_cooldown = PLAYER_BLOOD_COOLDDOWN
+        self.prev_blood_throw = 0
 
 
         # direction
@@ -86,12 +148,7 @@ class PlayerSprite(Sprite):
 
         self.direction = self.direction.normalize() if self.direction else self.direction
 
-        if keys[pygame.K_r] or button[0] and (pygame.time.get_ticks() - self.prev_attak >= self.attack_cooldown):
-            self.attack = True
-            self.prev_attak = pygame.time.get_ticks()
-            print('attakced')
-        else: self.attack = False
-
+        
     def move(self,dt):
         self.rect.x += self.direction.x*self.speed*dt
         self.collsions('horizontal')
@@ -117,6 +174,8 @@ class PlayerSprite(Sprite):
                 elif pygame.time.get_ticks() - sprite.prev_attack >= sprite.cooldown: 
                     self.health -= sprite.damage
                     sprite.prev_attack = pygame.time.get_ticks()
+
+        
 
     def health_bar(self,display_at):
         ratio = self.health/PLAYER_HEALTH
@@ -185,8 +244,7 @@ class ChestSprite(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = image
         self.rect = self.image.get_frect(topleft = pos)
-
-        
+     
 class GuardSprite(Sprite):
     def __init__(self,pos,image,groups,player,collision_sprites):
         super().__init__(pos,image,groups)
