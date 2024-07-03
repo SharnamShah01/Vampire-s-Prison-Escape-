@@ -10,7 +10,6 @@ class Game:
         pygame.init()
         pygame.display.set_mode((WIN_WIDTH,WIN_HEIGHT))
         self.screen = pygame.display.get_surface()
-        self.display = pygame.Surface((500,400))
         self.clock = pygame.time.Clock()
         self.running = True
 
@@ -52,7 +51,11 @@ class Game:
         # load map
         self.load_dungeon()
 
-    
+    def display_key(self):
+        key_font = pygame.font.Font(key_font_type,key_font_size)
+        key_font_surf = key_font.render(f'Keys: {self.key}',False,Key_font_collor)
+        key_rect = key_font_surf.get_rect(topleft = key_disp_place)
+        self.screen.blit(key_font_surf,key_rect)
         
     def chest_colision(self):
         collision = pygame.sprite.spritecollide(self.player, self.chest_sprites, True, pygame.sprite.collide_mask)
@@ -110,7 +113,7 @@ class Game:
                 self.chest = ChestSprite((obj.x,obj.y),obj.image,(self.all_sprites,self.chest_sprites))
                 
             if obj.name == 'Player':
-                self.player = PlayerSprite((obj.x,obj.y),self.all_sprites,self.collision_sprities)
+                self.player = PlayerSprite((obj.x,obj.y),self.all_sprites,self.collision_sprities,self.enemies_sprites)
 
             if obj.name == 'RECTGuard':
                 Grect = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
@@ -141,7 +144,7 @@ class Game:
 
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'Player':
-                self.player = PlayerSprite((obj.x,obj.y),self.all_sprites,self.collision_sprities)
+                self.player = PlayerSprite((obj.x,obj.y),self.all_sprites,self.collision_sprities,self.enemies_sprites)
             else:
                 self.enemy_pos.append((obj.x,obj.y))
 
@@ -156,9 +159,9 @@ class Game:
             if sprite.rect.colliderect(self.player.rect):
                 for pos in self.gaurd1_pos:
                     if sprite.rect.collidepoint(pos) and self.dungeon_enemy_event and self.out_of_cell == True:
-                        GuardSprite(pos,self.guard_image,self.all_sprites,self.player)
+                        GuardSprite(pos,self.guard_image,(self.all_sprites,self.enemies_sprites),self.player,self.collision_sprities)
                         
-
+    
     def run(self):
         
         while self.running:
@@ -181,10 +184,11 @@ class Game:
                     
 
             
-            # change map:
+            # change map: / dungeon disp
             if self.forest == False:
                 if  self.MER.colliderect(self.player):
                     self.forest = True
+                    self.enemies_sprites.empty()
                     self.load_map()
 
 
@@ -197,7 +201,7 @@ class Game:
                     self.door1_collilde()
                     self.door2_collilde()
 
-                # self.spawn_Guards()
+                
 
                 
 
@@ -207,6 +211,10 @@ class Game:
             # draw
             self.screen.fill(BG_COLOR)
             self.all_sprites.draw(self.player.rect.center)
+            self.player.health_bar(self.screen)
+
+            if self.forest == False:
+                self.display_key()
 
 
 
