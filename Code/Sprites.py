@@ -1,4 +1,5 @@
-from math import atan2,degrees
+
+from sqlalchemy import false, true
 from Settings import *
 from random import choice
 
@@ -44,7 +45,7 @@ class BloodThrow(pygame.sprite.Sprite):
                 self.folder = 'down'
             if player.folder == 'stand left':
                 self.folder = 'left'
-        
+
 
 
     def animate(self,dt):
@@ -65,6 +66,8 @@ class BloodThrow(pygame.sprite.Sprite):
             self.rect.y += self.speed*dt
         if self.folder == 'up':
             self.rect.y -= self.speed*dt
+        if self.folder == 'bat':
+            self.rect.x += self.speed*dt
 
         if pygame.time.get_ticks() - self.spawn_time >= self.lifetime:
             self.kill()
@@ -74,8 +77,64 @@ class BloodThrow(pygame.sprite.Sprite):
         self.move(dt)
         self.animate(dt)
         
+class DinoSprite(pygame.sprite.Sprite):
+    def __init__(self,groups,pos,player,collision_sprites):
+        super().__init__(groups)
+        self.image = pygame.image.load(join('images', 'Dino', 'left','0.png'))
+        self.pos = choice(pos)
+        self.rect = self.image.get_frect(center = self.pos)
+
+        self.direction = pygame.Vector2()
+        self.player = player
+        self.speed = DINO_ENEMY_SPEED
+        self.damage = DINO_ENEMY_DAMAGE
+        self.health = DINO_ENEMY_HEALTH
+        self.prev_attack = 0
+        self.cooldown = DINO_ENEMY_ATTACK_COOLDOWN
+        self.frames = 0
+
+        self.collison_sprites = collision_sprites
         
 
+    def get_direction(self):
+        self.player_pos = pygame.Vector2(self.player.rect.center)
+        self.Dino_direction = pygame.Vector2(self.rect.center)
+
+        self.direction = (self.player_pos - self.Dino_direction).normalize()
+
+    def move(self,dt):
+
+        if self.player.is_bat == False:
+            self.rect.x += self.speed*self.direction.x*dt
+            self.collision('horizontal')
+            self.rect.y += self.speed*self.direction.y*dt
+            self.collision('vertical')
+
+    def animate(self,dt):
+        if self.direction.x > 0:
+            self.folder = 'right'
+        if self.direction.x <= 0:
+            self.folder = 'left'
+
+        self.frames += 5*dt
+        self.image = pygame.image.load(join('images', 'Dino', self.folder,f'{int(self.frames%3)}.png'))
+        self.rect = self.image.get_frect(center = self.rect.center)
+
+    def collision(self,direction):
+        for sprite in self.collison_sprites:
+            if pygame.sprite.collide_rect(self,sprite):
+                if direction == 'horizontal':
+                    if self.direction.x> 0 :self.rect.right = sprite.rect.left
+                    if self.direction.x <0: self.rect.left = sprite.rect.right
+                if direction == 'vertical':
+                    if self.direction.y <0: self.rect.top = sprite.rect.bottom
+                    if self.direction.y >0: self.rect.bottom = sprite.rect.top
+
+    def update(self,dt):
+        self.get_direction()
+        self.move(dt)
+        self.animate(dt)
+           
 class PlayerSprite(Sprite):
     def __init__(self,pos,groups,collsion_sprtie,enemy_sprites):
         self.folder = 'stand down'
@@ -103,6 +162,16 @@ class PlayerSprite(Sprite):
 
         self.prev_dir = pygame.Vector2()
 
+        self.turn_to_bat = True
+        self.time_to_remain_bat =BAT_TIME
+        self.bat_cooldown = BAT_COOLDOWN
+        self.bat_at_time =0
+        self.bat_request = False
+        self.is_bat = False
+        
+
+
+
     def animate(self,dt):
         if self.direction.y >0:
             self.folder = 'down'
@@ -128,7 +197,18 @@ class PlayerSprite(Sprite):
                 self.folder = 'stand left'
 
             
-            
+        if self.bat_request == True and self.turn_to_bat == True:
+            if pygame.time.get_ticks() - self.bat_at_time <= self.time_to_remain_bat:
+                self.folder = 'bat'
+                self.is_bat = True
+                
+            if pygame.time.get_ticks() - self.bat_at_time > self.time_to_remain_bat:
+                self.bat_at_time = pygame.time.get_ticks()
+                self.bat_request = False
+                self.turn_to_bat = False
+                self.folder = 'down'
+                self.is_bat = False
+
 
         self.frames_index += dt*5
         self.image = pygame.image.load(join('images', 'Vampire', self.folder, f'{int(self.frames_index%5)}.png'))
@@ -146,7 +226,13 @@ class PlayerSprite(Sprite):
 
         self.direction = self.direction.normalize() if self.direction else self.direction
 
-        
+        if (keys[pygame.K_t] or button[1]) and self.turn_to_bat == True:
+            self.bat_request = True
+            self.bat_at_time = pygame.time.get_ticks()
+            
+            
+            
+
     def move(self,dt):
         self.rect.x += self.direction.x*self.speed*dt
         self.collsions('horizontal')
@@ -162,24 +248,31 @@ class PlayerSprite(Sprite):
                 else:
                     if self.direction.y <0: self.rect.top = sprite.rect.bottom
                     if self.direction.y >0: self.rect.bottom = sprite.rect.top
-
-        
-                
+    
     def player_punch(self):
         key_inputs = pygame.key.get_pressed()
         mouse_inputs = pygame.mouse.get_pressed()
+
+        if (key_inputs[pygame.K_e] or mouse_inputs[0]) and pygame.time.get_ticks() - self.punch_prev>= PLAYER_PUNCH_COOLDOWN :
+                punch_soun = pygame.mixer.Sound(join('sound','punch.mp3'))
+                punch_soun.play()
+
         for sprite in self.enemy_sprite_group:
-            if pygame.sprite.collide_mask(self,sprite):
+            sprite_rect = sprite.rect.inflate(1.5,1.5)
+            sprite.rect = sprite_rect
+            if pygame.sprite.collide_rect(self,sprite):
                 if (key_inputs[pygame.K_e] or mouse_inputs[0]) and pygame.time.get_ticks() - self.punch_prev>= PLAYER_PUNCH_COOLDOWN :
                     sprite.health -= self.damage
                     self.punch_prev = pygame.time.get_ticks()
                     if sprite.health <=0:
                         sprite.kill()
-                else:
+                elif pygame.time.get_ticks() - sprite.prev_attack >= sprite.cooldown and self.is_bat == False:
                     self.health -= sprite.damage
+                    self.health = max(0,self.health)
+                    sprite.prev_attack = pygame.time.get_ticks()
+                    dun_enemy_sound = pygame.mixer.Sound(join('sound', 'Dun enemy death.mp3'))
+                    dun_enemy_sound.play()
                     
-     
-
     def health_bar(self,display_at):
         ratio = self.health/PLAYER_HEALTH
         health_font = pygame.font.Font(None,PLAYER_FONT_SIZE)
@@ -189,7 +282,6 @@ class PlayerSprite(Sprite):
         pygame.draw.rect(display_at, 'red' , (190,38,100,5))
         pygame.draw.rect(display_at, 'green' , (190,38,100*ratio,5))
 
-
     def update(self,dt):
         self.input()
         self.move(dt)
@@ -197,56 +289,15 @@ class PlayerSprite(Sprite):
         self.player_punch()
 
         
+        if self.turn_to_bat == False:
+            if pygame.time.get_ticks() - self.bat_at_time >= self.bat_cooldown:
+                self.turn_to_bat = True
 
+        
 
-       
-
-
-class EnemySprite(Sprite):
-    def __init__(self,pos,groups,player,collision_sprites):
-        self.pos = choice((pos))
-        self.image = pygame.Surface((64,64))
-        super().__init__(self.pos,self.image,groups)
-        self.player = player
-        self.collision_sprites = collision_sprites
-
-        self.health = ENEMY_HEALTH
-        self.damage = ENEMY_DAMAGE
-        self.cooldown = ENEMY_ATTACK_COOLDOWN
-        self.prev_attack =0
-
-        # directio
-        self.direction = pygame.Vector2()
-        self.speed = ENEMY_SPEED
-
-
-
-    def get_direction(self,dt):
-        player_pos = pygame.Vector2(self.player.rect.center)
-        enemy_pos = pygame.Vector2(self.rect.center)
-        self.direction = (player_pos - enemy_pos).normalize()
-
-
-        self.rect.x += self.direction.x*self.speed*dt
-        self.collision('horizontal')
-        self.rect.y += self.direction.y*self.speed*dt
-        self.collision('vertical')
-
-
-    def collision(self,direction):
-        for sprite in self.collision_sprites:
-            if sprite.rect.colliderect(self.rect):
-                if self.direction == 'horizontal':
-                    if self.direction.x > 0: self.rect.right = sprite.rect.left
-                    if self.direction.x < 0: self.rect.left = sprite.rect.right
-
-                if self.direction == 'vertical':
-                    if self.direction.y < 0: self.rect.top = sprite.rect.bottom
-                    if self.direction.y >0: self.rect.bottom = sprite.rect.top
-
-    def update(self,dt):
-        self.get_direction(dt)
-
+class TreeSprite(Sprite):
+    def __init__(self, pos, surf, groups):
+        super().__init__(pos, surf, groups)
 
 class DoorSprite(Sprite):
     def __init__(self,pos,surf,groups):
@@ -278,10 +329,11 @@ class GuardSprite(Sprite):
         enemy_pos = pygame.Vector2(self.rect.center)
         self.direction = (player_pos - enemy_pos).normalize()
 
-        self.rect.x += self.direction.x*dt*DUN_ENEMY_SPEED
-        self.collisions('horizontal')
-        self.rect.y += self.direction.y*dt*DUN_ENEMY_SPEED
-        self.collisions('vertical')
+        if self.player.is_bat == False:
+            self.rect.x += self.direction.x*dt*DUN_ENEMY_SPEED
+            self.collisions('horizontal')
+            self.rect.y += self.direction.y*dt*DUN_ENEMY_SPEED
+            self.collisions('vertical')
 
         
     
@@ -298,7 +350,7 @@ class GuardSprite(Sprite):
 
     def animation(self,dt):
 
-        if self.direction.x<0:
+        if self.direction.x<=0:
             self.folder = 'guard right'
 
         if self.direction.x>0:
@@ -308,7 +360,7 @@ class GuardSprite(Sprite):
         self.frame_index += dt*5
         self.image = pygame.image.load(join('images', 'Guard', self.folder,f'{int(self.frame_index%4)}.png'))
         self.rect = self.image.get_frect(center = self.rect.center)
-        print(int(self.frame_index%4))
+        
         
 
 

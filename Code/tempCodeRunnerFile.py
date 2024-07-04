@@ -1,3 +1,2 @@
-if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
-                #     if pygame.mouse.get_pressed()[2] or event.key == pygame.K_q :
-                #         self.blood_throw()
+    instruction_surf = instruction_font.render(instruction_forest[self.instruction_index],True,instru_font_color,instru_bg_color)
+                self.screen.blit(instruction_surf,instru_pos)

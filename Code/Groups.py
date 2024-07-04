@@ -36,7 +36,7 @@ class CameraGroup(pygame.sprite.Group):
         
         # object_sprites = [sprite for sprite in self if not hasattr(sprite, 'Ground')]
         
-
+        
 
         for sprite in self:
             self.internal_surf.blit(sprite.image, sprite.rect.topleft + self.offset + self.internal_offset)
