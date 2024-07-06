@@ -1,3 +1,4 @@
 {
-    "C_Cpp.intelliSenseEngineFallback": "disabled"
+    "C_Cpp.intelliSenseEngineFallback": "disabled",
+    "python.REPL.enableREPLSmartSend": false
 }

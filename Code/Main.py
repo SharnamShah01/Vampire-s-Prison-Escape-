@@ -1,4 +1,3 @@
-from turtle import Screen
 from Settings import *
 from Sprites import *
 from Groups import *
@@ -18,6 +17,9 @@ class Game:
         # conditions
         self.forest = False
         self.out_of_cell = True
+        self.start_game = False
+        self.died = False
+        self.disp_bet = False
 
         # Groups:
         self.all_sprites = CameraGroup()
@@ -54,9 +56,22 @@ class Game:
 
         # Dungeon:
         self.key =0;
-        # load map
+        
+        # indexs
+            # instruction start game
         self.instruction_index = 0
-        self.load_dungeon()
+            # end_sceen
+        self.end_screen_index =0
+        self.instruction_shown = False
+        self.escaped_time = 0
+        self.end_screen_text= ['''Whew!''', '''That was close''']
+        self.end_game = False
+            # 
+        self.bet_index =0
+        
+
+        # load map
+        self.title_screen()
         
     def collideTree(self):
         for sprite in self.Tree_group:
@@ -80,6 +95,31 @@ class Game:
             return True
         return False
 
+    def End_screen(self):
+        end_screen_font =  pygame.font.Font(END_SCREEN_FONT,END_FONT_SIZE)
+        self.screen.fill(END_SCREEN_BG_COLOR)
+
+        end_screen_instruc = end_screen_font.render('press space to continue',True,END_SCREEN_COLOR)
+        
+        self.screen.blit(end_screen_instruc,(WIN_WIDTH/2,WIN_HEIGHT-200))
+
+        
+        keys = pygame.key.get_just_pressed()
+
+        print(self.end_screen_index)
+        
+        if self.end_screen_index < len(self.end_screen_text):
+            end_screen_surf = end_screen_font.render(self.end_screen_text[self.end_screen_index],True,END_SCREEN_COLOR)
+
+            if self.end_screen_index < 2:
+                self.screen.blit(end_screen_surf, END_FONT_POOS)
+            if self.end_screen_index ==2:
+                self.screen.blit(end_screen_surf, (WIN_WIDTH/2 - 450,WIN_HEIGHT/2))
+
+
+            if keys[pygame.K_SPACE]:
+                self.end_screen_index +=1
+                
     def door1_collilde(self):
         if self.player.rect.colliderect(self.EP1R):
             self.collision_sprities.remove(self.door)        
@@ -242,9 +282,115 @@ class Game:
             if enemies_hit:
                 sprite.kill()
                 for enemy in enemies_hit:
-                    dun_enemy_sound = pygame.mixer.Sound(join('sound', 'Dun enemy death.mp3'))
-                    dun_enemy_sound.play()
                     enemy.health -= BLOOD_THROW_DAMAGE
+
+    def title_screen(self):
+        titel_screen_display_image = pygame.image.load(join('Data' , 'title screen' , 'new title.png'))
+        scaled_title_display_image = pygame.transform.scale(titel_screen_display_image,(WIN_WIDTH,WIN_HEIGHT))
+        scaled_image_size = scaled_title_display_image.get_size()
+        title_screen_rect = scaled_title_display_image.get_frect(center = TITLE_SCREEN_pos)
+
+
+
+        txt_pos = (scaled_image_size[0]//2,scaled_image_size[1]//2)
+        
+
+        keys = pygame.mouse.get_pressed()
+
+        title_screen_font = pygame.font.Font(TITLE_SCREEN_FONT,TITLE_SCREEN_FONT_SIZE)
+
+
+        title_screen_text = title_screen_font.render('''Vampire's Prison Escape''',True,TITLE_COLOR)
+        titeld_screen_text_rect = title_screen_text.get_frect(center = (txt_pos[0], txt_pos[1]))
+        
+
+
+        title_screen_play = title_screen_font.render('''Play''',True,PLAY_COLOR)
+        title_screen_play_rect = title_screen_play.get_frect(center = (txt_pos[0], txt_pos[1]+100))
+
+        self.screen.blit(scaled_title_display_image,title_screen_rect)
+        self.screen.blit(title_screen_text,titeld_screen_text_rect)
+        self.screen.blit(title_screen_play,title_screen_play_rect)
+
+        
+        if keys[0] and title_screen_play_rect.collidepoint(pygame.mouse.get_pos()):
+            
+            self.start_game  = True
+            self.load_dungeon()
+
+    def Death_screen(self):
+        Death_font = pygame.font.Font(DEATH_FONT,DEATH_FONT_SIZE)
+
+        death_text = Death_font.render('You DIED',True,DEATH_FONT_COLOR)
+        death_rect = death_text.get_frect(center = DEATH_FONT_POS)
+
+        self.screen.blit(death_text,death_rect)
+
+        keys = pygame.mouse.get_pressed()
+
+        restart_text = 'Restart'
+        restart_font = pygame.font.Font(TITLE_SCREEN_FONT,TITLE_SCREEN_FONT_SIZE)
+        restart_text_surf = restart_font.render(restart_text,True,TITLE_COLOR)
+        restart_rect = restart_text_surf.get_frect(center = (DEATH_FONT_POS[0],DEATH_FONT_POS[1]+200))
+
+        self.screen.blit(restart_text_surf,restart_rect)
+
+        if keys[0] and restart_rect.collidepoint(pygame.mouse.get_pos()):
+            self.running =False
+            self.all_sprites.empty()
+            self.collision_sprities.empty()
+            self.enemies_sprites.empty()
+            self.chest_sprites.empty()
+            self.door_sprites1.empty()
+            self.Guard1_rect_group.empty()
+            self.Guard_sprites_group.empty()
+            self.Blood_throws.empty()
+            self.Tree_group.empty()
+            self.__init__()
+
+    def screen_bet_DUN_and_FOREST(self):
+        text = [ '''What's happening?''' , '''Oh no... ''' , '''Remeber Goose? ''' , '''The chicken you hipnotised to make machines for Transalvaniya?''', '''Yeah, looks like he messed up''' , '''You are now being transported to- ''', '''A VERY VERY FAR PAST '''   ]
+
+        sclaed_bet_image = pygame.transform.scale(BET_IMAGE,(WIN_WIDTH,WIN_HEIGHT))
+        sclaed_image_size = sclaed_bet_image.get_size()
+        
+        txt_pos = (sclaed_image_size[0]/2 , sclaed_image_size[1]/2 )
+        scaled_image_rect = sclaed_bet_image.get_frect(center = txt_pos)
+
+        self.screen.blit(sclaed_bet_image,scaled_image_rect)
+
+        text_font = pygame.font.Font(BET_SCREEN_FONT_FILE, BET_FONT_SIZE)
+
+
+        
+        
+
+        intruc = text_font.render('''Press Space to Continue''',True,BET_FONT_COLOR)
+        intruc_rect = intruc.get_frect(center = (txt_pos[0]/2 , 2*txt_pos[1] - 150))
+        self.screen.blit(intruc,intruc_rect)
+
+
+        keys = pygame.key.get_just_pressed()
+
+        if self.bet_index < len(text):
+            text_surf= text_font.render(text[self.bet_index], True, BET_FONT_COLOR)
+            text_rect = text_surf.get_frect(center = txt_pos)
+            self.screen.blit(text_surf,text_rect)
+
+            if keys[pygame.K_SPACE]:
+                self.bet_index +=1
+
+        else: 
+            self.disp_bet = False
+            self.forest = True
+            self.forest_end_event = pygame.event.custom_type()
+            self.forest_timer = pygame.time.set_timer(self.forest_end_event,TIME_IN_FOREST)
+            self.load_forest()
+            
+
+        
+
+
 
     def run(self):
 
@@ -257,73 +403,117 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.running = False
                 
-                if event.type == self.enemy_event and self.forest == True:
+                if event.type == self.enemy_event and self.forest == True and self.end_game == False:
                     DinoSprite((self.all_sprites,self.enemies_sprites),self.forest_enemy_pos,self.player,self.collision_sprities)
                     
 
-                if event.type == self.dungeon_enemy_event and self.forest == False:
+                if event.type == self.dungeon_enemy_event and self.forest == False and self.end_game == False and self.start_game == True:
                     self.spawn_Guards()
 
                 if event.type == pygame.MOUSEWHEEL:
                     self.all_sprites.zoom_scale += event.y*0.03
 
+                if self.forest == True and event.type == self.forest_end_event and self.end_game == False:
+                    self.escaped_time += pygame.time.get_ticks()
+                    self.end_screen_text.append(f'''With Goose's mishap, You escaped prision in: {self.escaped_time/1000} seconds''')
+                    self.end_game = True
+
+                if self.start_game == True and self.player.health <=0:
+                    self.died = True
+
                 # if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                 #     if pygame.mouse.get_pressed()[2] or event.key == pygame.K_q :
                 #         self.blood_throw()
+
+            if self.start_game == True and self.died == False:   
+                if self.end_game == False:
+                    # change map: / dungeon disp
+                    if self.forest == False and self.disp_bet == False:
+                        if  self.MER.colliderect(self.player):
+                            
+                            
+                            self.enemies_sprites.empty()
+                            self.all_sprites.empty()
+                            self.collision_sprities.empty() 
+                            self.enemies_sprites.empty()
+                            self.chest_sprites.empty()
+                            self.door_sprites1.empty()
+                            self.Guard1_rect_group.empty()
+                            self.Blood_throws.empty()
+                            self.instruction_index =0
+
+                            
+                            
+                            self.screen_bet_DUN_and_FOREST()
+                            self.disp_bet = True
+
+
+                        if self.chest_colision():
+                            self.key += 1
+                            
+
+                        # see key_updation
+                        if self.key==1:
+                            self.door1_collilde()
+                            self.door2_collilde()
+
+                    if self.forest == True:
+                        self.collideTree()
+                        self.player.health -= 1
+
+                    
+
+                    # update
+                    self.all_sprites.update(dt)
+                    self.blood_enemy_collision()
+
+                    # draw  
+                    
+                    self.screen.fill(BG_COLOR)
+                    self.all_sprites.draw(self.player.rect.center)
+                    self.player.health_bar(self.screen)
+                    self.blood_throw()
+                    
+
+                    if self.forest == False and self.disp_bet == False:
+                        self.display_key()
                         
                     
+                    if self.disp_bet == True:
+                        self.screen_bet_DUN_and_FOREST()
 
-            
-            # change map: / dungeon disp
-            if self.forest == False:
-                if  self.MER.colliderect(self.player):
+                    if self.disp_bet == False:
+                        self.instruction()
+
+
+                if self.end_game == True:
+                    self.End_screen()
                     
-                    self.forest = True
-                    self.enemies_sprites.empty()
-                    self.all_sprites.empty()
-                    self.collision_sprities.empty() 
-                    self.enemies_sprites.empty()
-                    self.chest_sprites.empty()
-                    self.door_sprites1.empty()
-                    self.Guard1_rect_group.empty()
-                    self.Blood_throws.empty()
-                    self.instruction_index =0
-                    self.load_forest()
+                        
+                        
+                    keys = pygame.key.get_just_pressed()
+                    if keys[pygame.K_SPACE] and self.end_screen_index >= len(self.end_screen_text):
+                        self.running =False
+                        self.all_sprites.empty()
+                        self.collision_sprities.empty()
+                        self.enemies_sprites.empty()
+                        self.chest_sprites.empty()
+                        self.door_sprites1.empty()
+                        self.Guard1_rect_group.empty()
+                        self.Guard_sprites_group.empty()
+                        self.Blood_throws.empty()
+                        self.Tree_group.empty()
+                        self.__init__()
+                        
 
+            if self.start_game == False and self.died == False:
+                self.title_screen()
 
-                if self.chest_colision():
-                    self.key += 1
-                    
-
-                 # see key_updation
-                if self.key==1:
-                    self.door1_collilde()
-                    self.door2_collilde()
-
-            if self.forest == True:
-                self.collideTree()
-                self.player.health -= 1
-
-                
-
-            # update
-            self.all_sprites.update(dt)
-            self.blood_enemy_collision()
-
-            # draw  
-            self.screen.fill(BG_COLOR)
-            self.all_sprites.draw(self.player.rect.center)
-            self.player.health_bar(self.screen)
-            self.blood_throw()
-            self.instruction()
-
-            if self.forest == False:
-                self.display_key()
-
+            if self.died == True:
+                self.Death_screen()
 
 
             pygame.display.update() 
-
 
         pygame.quit()
 

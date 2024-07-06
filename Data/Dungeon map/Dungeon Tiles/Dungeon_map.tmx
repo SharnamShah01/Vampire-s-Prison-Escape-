@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="54">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="59">
  <tileset firstgid="1" source="tsx files dungeon/Dungeion ground.tsx"/>
  <tileset firstgid="57" source="tsx files dungeon/room walls.tsx"/>
  <layer id="1" name="Ground" width="80" height="50">
@@ -155,8 +155,15 @@
   <object id="49" name="Exit point2 rect" x="1842.73" y="923.455" width="64.3636" height="74.9205"/>
   <object id="50" name="RECTGuard" x="1146.67" y="358.667" width="496" height="508"/>
   <object id="51" name="Map exit rect" x="1980.5" y="270.5" width="39.5" height="99"/>
-  <object id="52" name="RECTGuard" x="1772" y="186.5"/>
   <object id="53" name="RECTGuard" x="415.333" y="520.667" width="422.667" height="115.333"/>
+  <object id="54" name="RECTGuard" x="864" y="1056" width="717" height="99"/>
+  <object id="55" name="Guards" x="1505" y="1109">
+   <point/>
+  </object>
+  <object id="56" name="RECTGuard" x="1610.67" y="962" width="237.333" height="90.6667"/>
+  <object id="58" name="Guards" x="1637.33" y="1033.33">
+   <point/>
+  </object>
  </objectgroup>
  <layer id="6" name="Maze walls" width="80" height="50">
   <data encoding="csv">

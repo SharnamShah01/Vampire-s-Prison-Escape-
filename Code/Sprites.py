@@ -1,5 +1,3 @@
-
-from sqlalchemy import false, true
 from Settings import *
 from random import choice
 
@@ -8,7 +6,6 @@ class Sprite(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = surf
         self.rect = self.image.get_frect(topleft = (pos))
-
 
 class TREESprtite(pygame.sprite.Sprite):
     def __init__(self,groups,pos,image):
@@ -169,9 +166,6 @@ class PlayerSprite(Sprite):
         self.bat_request = False
         self.is_bat = False
         
-
-
-
     def animate(self,dt):
         if self.direction.y >0:
             self.folder = 'down'
@@ -230,9 +224,6 @@ class PlayerSprite(Sprite):
             self.bat_request = True
             self.bat_at_time = pygame.time.get_ticks()
             
-            
-            
-
     def move(self,dt):
         self.rect.x += self.direction.x*self.speed*dt
         self.collsions('horizontal')
@@ -292,8 +283,6 @@ class PlayerSprite(Sprite):
         if self.turn_to_bat == False:
             if pygame.time.get_ticks() - self.bat_at_time >= self.bat_cooldown:
                 self.turn_to_bat = True
-
-        
 
 class TreeSprite(Sprite):
     def __init__(self, pos, surf, groups):

@@ -18,7 +18,7 @@ BG_COLOR = '#4F3A60'
 instruc_font = None
 instruc_font_size = 30
 instru_font_color = 'green'
-instru_pos = (WIN_WIDTH/2 ,WIN_HEIGHT/2)
+instru_pos = (WIN_WIDTH/2 -100,WIN_HEIGHT/2)
 instru_bg_color = None
 
 
@@ -45,6 +45,7 @@ BAT_TIME = 3000
 BAT_COOLDOWN = 3000
 
 # forest:
+TIME_IN_FOREST = 30000
 
 # Enemy
 DINO_ENEMY_SPEED = 200
@@ -68,3 +69,38 @@ key_font_size = 50
 key_disp_place = (100,100)
 Key_font_collor = 'yellow'
 
+
+
+# end screen
+END_SCREEN_BG_COLOR = 'black'
+END_SCREEN_FONT = None
+END_FONT_SIZE = 50
+END_FONT_POOS = (WIN_WIDTH/2-100,WIN_HEIGHT/2)
+END_SCREEN_COLOR = 'white'
+
+
+
+# title screen
+TITLE_SCREEN_pos = (WIN_WIDTH/2,WIN_HEIGHT/2+3)
+TITLE_SCREEN_FONT = join('Font', 'TITLE_SCREEN_FONT.ttf')
+TITLE_SCREEN_FONT_SIZE = 80
+TITLE_SCREEN_FONT_POS = (WIN_WIDTH/2-200,WIN_HEIGHT/2)
+TITLE_SCREEN_PLAY_POS = (WIN_WIDTH/2-200,WIN_HEIGHT/2+100)
+TITLE_COLOR = 'gold'
+PLAY_COLOR = 'black'
+
+
+
+# DEATH SCREEN
+DEATH_FONT = join('Font', 'DEATH_FONT.ttf')
+DEATH_FONT_SIZE = 100
+DEATH_FONT_POS = (WIN_WIDTH/2,WIN_HEIGHT/2)
+DEATH_FONT_COLOR = 'red'
+
+
+# Between SCREEN
+BET_SCREEN_FONT_FILE = None
+BET_FONT_SIZE = 50
+BET_FONT_POS = (WIN_WIDTH/2,WIN_HEIGHT/2)
+BET_FONT_COLOR = 'White'
+BET_IMAGE = pygame.image.load(join('Data' , 'BET' , 'bet.png'))
