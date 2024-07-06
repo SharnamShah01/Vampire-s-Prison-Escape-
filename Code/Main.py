@@ -204,7 +204,7 @@ class Game:
         if self.forest == True:
             instruction_forest = ['Move under a tree QUICK!!!', 'Stupid Goose,\nYou are in the Sun right now\nStay near a tree to sheif from the sun\nStay alive till Goose fixes the machine and brings you HOME']
             if self.instruction_index < len(instruction_forest):
-                instruction_surf = instruction_font.render(instruction_forest[self.instruction_index],True,instru_font_color,instru_bg_color)
+                instruction_surf = instruction_font.render(instruction_forest[self.instruction_index],True,forest_instru_color)
                 self.screen.blit(instruction_surf,instru_pos)
 
         if key[pygame.K_SPACE]:
@@ -387,11 +387,6 @@ class Game:
             self.forest_timer = pygame.time.set_timer(self.forest_end_event,TIME_IN_FOREST)
             self.load_forest()
             
-
-        
-
-
-
     def run(self):
 
         while self.running:

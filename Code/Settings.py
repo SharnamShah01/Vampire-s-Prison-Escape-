@@ -15,11 +15,13 @@ BG_COLOR = '#4F3A60'
 
 
 # instruction
-instruc_font = None
+instruc_font = join('Font' , 'INTRU_FONT.ttf')
 instruc_font_size = 30
 instru_font_color = 'green'
-instru_pos = (WIN_WIDTH/2 -100,WIN_HEIGHT/2)
+instru_pos = (WIN_WIDTH/2 -100,WIN_HEIGHT/2+200)
 instru_bg_color = None
+
+forest_instru_color = 'black'
 
 
 # player
@@ -58,7 +60,7 @@ DINO_ENEMY_ATTACK_COOLDOWN = 450
 DUN_TILE_SIZE = 32
 
 KEY_IMAGE = pygame.Surface((16,16))
-DUN_ENEMY_SPAWN_RATE = 1750
+DUN_ENEMY_SPAWN_RATE = 1000
 DUN_ENEMY_SPEED = 100
 DUN_ENEMY_HEALTH = 10
 DUN_ENEMY_DAMAGE = 2
