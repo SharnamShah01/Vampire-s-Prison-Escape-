@@ -20,6 +20,8 @@ class Game:
         self.start_game = False
         self.died = False
         self.disp_bet = False
+        self.disp_hint = False
+        
 
         # Groups:
         self.all_sprites = CameraGroup()
@@ -52,6 +54,15 @@ class Game:
 
         self.bloodthrow_prev =0
 
+
+        # highscore
+        
+        try:
+            with open(join('Data', 'highsore.txt')) as score_file:
+                self.high_score = json.load(score_file)
+        except:
+            self.high_score = 0
+
         
 
         # Dungeon:
@@ -71,6 +82,7 @@ class Game:
         
 
         # load map
+        
         self.title_screen()
         
     def collideTree(self):
@@ -96,8 +108,16 @@ class Game:
         return False
 
     def End_screen(self):
+        self.high_score = min(self.escaped_time,self.high_score)
+        with open(join('data', 'highsore.txt'),'w') as score_file:
+            json.dump(self.high_score,score_file)
+
+
         end_screen_font =  pygame.font.Font(END_SCREEN_FONT,END_FONT_SIZE)
-        self.screen.fill(END_SCREEN_BG_COLOR)
+        # self.screen.fill(END_SCREEN_BG_COLOR)
+        bg_scaled = pygame.transform.scale(END_SCREEN_BG,(WIN_WIDTH,WIN_HEIGHT))
+        bg_rect = bg_scaled.get_frect(center = (WIN_WIDTH/2,WIN_HEIGHT/2))
+        self.screen.blit(bg_scaled,bg_rect)
 
         end_screen_instruc = end_screen_font.render('press space to continue',True,END_SCREEN_COLOR)
         
@@ -106,7 +126,7 @@ class Game:
         
         keys = pygame.key.get_just_pressed()
 
-        print(self.end_screen_index)
+        
         
         if self.end_screen_index < len(self.end_screen_text):
             end_screen_surf = end_screen_font.render(self.end_screen_text[self.end_screen_index],True,END_SCREEN_COLOR)
@@ -127,9 +147,18 @@ class Game:
             self.out_of_cell = True
 
     def door2_collilde(self):
-        if self.player.rect.colliderect(self.EP2R):
+        if self.player.rect.colliderect(self.EP2R) and self.key ==1:
             self.collision_sprities.remove(self.door2)        
             self.key = self.key-1
+            self.disp_hint = True
+
+        if self.player.rect.colliderect(self.EP2R) and self.key < 1 and self.disp_hint == False:
+            hint_font = pygame.font.Font(instruc_font,instruc_font_size)
+            hint_surf = hint_font.render('To open this door Get a key,\nfrom a chest!',True, instru_font_color)
+            hint_rect = hint_surf.get_frect(topleft = instru_pos)
+            print('hint spawned')
+
+            self.screen.blit(hint_surf,hint_rect)
 
     def load_dungeon(self):
         dungeon_map = load_pygame(join('Data', 'Dungeon map','Dungeon Tiles', 'Dungeon_map.tmx'))
@@ -166,7 +195,7 @@ class Game:
                 self.chest = ChestSprite((obj.x,obj.y),obj.image,(self.all_sprites,self.chest_sprites))
                 
             if obj.name == 'Player':
-                self.player = PlayerSprite((obj.x,obj.y),self.all_sprites,self.collision_sprities,self.enemies_sprites)
+                self.player = PlayerSprite((obj.x,obj.y),self.all_sprites,self.collision_sprities,self.enemies_sprites,self.forest)
 
             if obj.name == 'RECTGuard':
                 Grect = pygame.Rect(obj.x,obj.y,obj.width,obj.height)
@@ -193,7 +222,7 @@ class Game:
         instruction_font = pygame.font.Font(instruc_font,instruc_font_size)
         
         if self.forest == False:
-            instructions_dun = ['To move press WASD or RGHT-LEFT-UP-DOWN Arrow keys\nPress space to continue', 'To punch press E or Left mouse button\nPress space to continue', 'To Use blood power press Q or right arrow key\nPress space to continue', 'Collect keys from chests to open doors\nPress space to continue', 'Press T to become a Bat\nYou can be bat for only 3 Sec Every 3 sec,\nEnemies cant follow you when you are a bat\nPress space to continue' ,'There is a exit at the other side of the prison,reach it and\nYou will be rescued by GOOSE\nPress space to continue']
+            instructions_dun = ['To move press WASD or RGHT-LEFT-UP-DOWN Arrow keys\nPress space to continue', 'To punch press E or Left mouse button\nNOTE: The guards will damage you till their last breadth!!\nPress space to continue', 'To Use blood power press Q or right arrow key\nNOTE: The blood throw will go in the direction you are facing\nPress space to continue', 'Collect keys from chests to open doors\nPress space to continue', 'Press T to become a Bat\nNOTE: you can be bat every 3 seconds\nEnemies cant follow you when you are a bat\nPress space to continue' ,'There is a exit at the other side of the prison,reach it and\nYou will be rescued by GOOSE\nPress space to continue']
             
             if(self.instruction_index < len(instructions_dun)):
                 instruction_surf = instruction_font.render(instructions_dun[self.instruction_index],True,instru_font_color,instru_bg_color)
@@ -202,7 +231,7 @@ class Game:
                 self.screen.blit(instruction_surf,instru_rect)
 
         if self.forest == True:
-            instruction_forest = ['Move under a tree QUICK!!!', 'Stupid Goose,\nYou are in the Sun right now\nStay near a tree to sheif from the sun\nStay alive till Goose fixes the machine and brings you HOME']
+            instruction_forest = ['Move under a tree QUICK!!!', 'Stupid Goose,\nYou are in the Sun right now\nStay near a tree to shield yourself from the sun\nStay alive till Goose fixes the machine and brings you HOME']
             if self.instruction_index < len(instruction_forest):
                 instruction_surf = instruction_font.render(instruction_forest[self.instruction_index],True,forest_instru_color)
                 self.screen.blit(instruction_surf,instru_pos)
@@ -211,6 +240,7 @@ class Game:
             self.instruction_index+=1
 
     def load_forest(self):
+        
         map = load_pygame(join('Data' , 'Forest map' , 'Forest map.tmx'))
 
         for x,y,image in map.get_layer_by_name('Ground').tiles():
@@ -223,7 +253,7 @@ class Game:
 
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'Player':
-                self.player = PlayerSprite((obj.x,obj.y),(self.all_sprites),self.collision_sprities,self.enemies_sprites)
+                self.player = PlayerSprite((obj.x,obj.y),(self.all_sprites),self.collision_sprities,self.enemies_sprites,self.forest)
 
             if obj.name == 'Trex':
                 self.forest_enemy_pos.append((obj.x,obj.y))
@@ -256,8 +286,7 @@ class Game:
                         if sprite.rect.colliderect(guard.rect):
                             self.enemies_sprites.remove(guard)
                             guard.kill()
-                            print('dead')
-
+                            
     def blood_throw(self):
         key = pygame.key.get_pressed()
         button = pygame.mouse.get_pressed()
@@ -283,6 +312,12 @@ class Game:
                 sprite.kill()
                 for enemy in enemies_hit:
                     enemy.health -= BLOOD_THROW_DAMAGE
+                    if self.forest == True:
+                        dino_death = pygame.mixer.Sound(join('sound', 'dino died sound.mp3'))
+                        dino_death.play()
+                    if self.forest == False:
+                        DUN = pygame.mixer.Sound(join('sound' , 'dun death.mp3'))
+                        DUN.play()
 
     def title_screen(self):
         titel_screen_display_image = pygame.image.load(join('Data' , 'title screen' , 'new title.png'))
@@ -299,23 +334,32 @@ class Game:
 
         title_screen_font = pygame.font.Font(TITLE_SCREEN_FONT,TITLE_SCREEN_FONT_SIZE)
 
+        info_font = pygame.font.Font(TITLE_SCREEN_FONT,TITLE_SCREEN_FONT_SIZE - 40)
+
 
         title_screen_text = title_screen_font.render('''Vampire's Prison Escape''',True,TITLE_COLOR)
         titeld_screen_text_rect = title_screen_text.get_frect(center = (txt_pos[0], txt_pos[1]))
         
-
+        highcore_surf = info_font.render(f'''Highscore : {self.high_score}''',True, PLAY_COLOR)
+        highscore_rect = highcore_surf.get_frect(center = (txt_pos[0],txt_pos[1] - 100))
 
         title_screen_play = title_screen_font.render('''Play''',True,PLAY_COLOR)
         title_screen_play_rect = title_screen_play.get_frect(center = (txt_pos[0], txt_pos[1]+100))
+        self.game_start_at = pygame.time.get_ticks()
 
         self.screen.blit(scaled_title_display_image,title_screen_rect)
         self.screen.blit(title_screen_text,titeld_screen_text_rect)
         self.screen.blit(title_screen_play,title_screen_play_rect)
+        self.screen.blit(highcore_surf,highscore_rect)
 
         
         if keys[0] and title_screen_play_rect.collidepoint(pygame.mouse.get_pos()):
             
             self.start_game  = True
+            self.game_music = pygame.mixer.Sound(join('sound' , 'game music.mp3'))
+            self.game_music.play(loops = -1)
+            
+            
             self.load_dungeon()
 
     def Death_screen(self):
@@ -346,6 +390,7 @@ class Game:
             self.Guard_sprites_group.empty()
             self.Blood_throws.empty()
             self.Tree_group.empty()
+            self.game_music.stop()
             self.__init__()
 
     def screen_bet_DUN_and_FOREST(self):
@@ -409,7 +454,7 @@ class Game:
                     self.all_sprites.zoom_scale += event.y*0.03
 
                 if self.forest == True and event.type == self.forest_end_event and self.end_game == False:
-                    self.escaped_time += pygame.time.get_ticks()
+                    self.escaped_time += pygame.time.get_ticks() - self.start_game
                     self.end_screen_text.append(f'''With Goose's mishap, You escaped prision in: {self.escaped_time/1000} seconds''')
                     self.end_game = True
 
@@ -450,7 +495,8 @@ class Game:
                         # see key_updation
                         if self.key==1:
                             self.door1_collilde()
-                            self.door2_collilde()
+                            
+                        
 
                     if self.forest == True:
                         self.collideTree()
@@ -472,6 +518,7 @@ class Game:
 
                     if self.forest == False and self.disp_bet == False:
                         self.display_key()
+                        self.door2_collilde()
                         
                     
                     if self.disp_bet == True:
@@ -498,6 +545,7 @@ class Game:
                         self.Guard_sprites_group.empty()
                         self.Blood_throws.empty()
                         self.Tree_group.empty()
+                        self.game_music.stop()
                         self.__init__()
                         
 

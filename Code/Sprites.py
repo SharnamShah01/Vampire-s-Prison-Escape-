@@ -133,7 +133,7 @@ class DinoSprite(pygame.sprite.Sprite):
         self.animate(dt)
            
 class PlayerSprite(Sprite):
-    def __init__(self,pos,groups,collsion_sprtie,enemy_sprites):
+    def __init__(self,pos,groups,collsion_sprtie,enemy_sprites,forest):
         self.folder = 'stand down'
         self.image = pygame.image.load(join('images', 'Vampire', self.folder, '0.png')).convert_alpha()
         self.image = pygame.transform.smoothscale(self.image,Scale_image_by).convert_alpha()
@@ -141,6 +141,7 @@ class PlayerSprite(Sprite):
         self.enemy_sprite_group = enemy_sprites
         self.collision_sprite = collsion_sprtie
         self.frames_index = 0
+        self.forest = forest
         
         # powers
         self.health = PLAYER_HEALTH
@@ -257,6 +258,14 @@ class PlayerSprite(Sprite):
                     self.punch_prev = pygame.time.get_ticks()
                     if sprite.health <=0:
                         sprite.kill()
+                        if self.forest == True:
+                            dino_death = pygame.mixer.Sound(join('sound', 'dino died sound.mp3'))
+                            dino_death.play()
+                            
+                        if self.forest == False:
+                            DUN = pygame.mixer.Sound(join('sound' , 'dun death.mp3'))
+                            DUN.play()
+                    
                 elif pygame.time.get_ticks() - sprite.prev_attack >= sprite.cooldown and self.is_bat == False:
                     self.health -= sprite.damage
                     self.health = max(0,self.health)

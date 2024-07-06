@@ -1,6 +1,7 @@
 import pygame
 from pytmx.util_pygame import load_pygame
 from os.path import join
+import json
 
 WIN_WIDTH,WIN_HEIGHT = 1200,650
 INT_SURF_SIZE = (2500,1500)
@@ -16,9 +17,9 @@ BG_COLOR = '#4F3A60'
 
 # instruction
 instruc_font = join('Font' , 'INTRU_FONT.ttf')
-instruc_font_size = 30
-instru_font_color = 'green'
-instru_pos = (WIN_WIDTH/2 -100,WIN_HEIGHT/2+200)
+instruc_font_size = 50
+instru_font_color = 'white'
+instru_pos = (WIN_WIDTH/2 -400,WIN_HEIGHT/2+100)
 instru_bg_color = None
 
 forest_instru_color = 'black'
@@ -78,7 +79,8 @@ END_SCREEN_BG_COLOR = 'black'
 END_SCREEN_FONT = None
 END_FONT_SIZE = 50
 END_FONT_POOS = (WIN_WIDTH/2-100,WIN_HEIGHT/2)
-END_SCREEN_COLOR = 'white'
+END_SCREEN_COLOR = '#E6E6FA'
+END_SCREEN_BG = pygame.image.load(join('images' , 'Backgrounds' , 'End screen bg.jpg'))
 
 
 
@@ -106,3 +108,6 @@ BET_FONT_SIZE = 50
 BET_FONT_POS = (WIN_WIDTH/2,WIN_HEIGHT/2)
 BET_FONT_COLOR = 'White'
 BET_IMAGE = pygame.image.load(join('Data' , 'BET' , 'bet.png'))
+
+
+
