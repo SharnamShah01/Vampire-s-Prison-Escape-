@@ -19,7 +19,7 @@ BG_COLOR = '#4F3A60'
 instruc_font = join('Font' , 'INTRU_FONT.ttf')
 instruc_font_size = 50
 instru_font_color = 'white'
-instru_pos = (WIN_WIDTH/2 -400,WIN_HEIGHT/2+100)
+instru_pos = (WIN_WIDTH/2 -500,WIN_HEIGHT/2+100)
 instru_bg_color = None
 
 forest_instru_color = 'black'
@@ -38,7 +38,7 @@ BLOOD_THROW_SPEED = 250
 BLOOD_THROW_DAMAGE = 3
 
 
-PLAYER_HEALTH_FONT = None
+PLAYER_HEALTH_FONT = join('Font' , 'geek.ttf')
 PLAYER_FONT_SIZE = 40
 PLAYER_HEALTH_FONT_POS = (100,30)
 PLAYER_HEALTH_COLOR = 'white'
@@ -61,13 +61,15 @@ DINO_ENEMY_ATTACK_COOLDOWN = 450
 DUN_TILE_SIZE = 32
 
 KEY_IMAGE = pygame.Surface((16,16))
-DUN_ENEMY_SPAWN_RATE = 1000
+DUN_ENEMY_SPAWN_RATE = 1250
 DUN_ENEMY_SPEED = 100
 DUN_ENEMY_HEALTH = 10
 DUN_ENEMY_DAMAGE = 2
 DUN_ATTACK_COOLDOWN = 400
 
-key_font_type = None
+
+# keys
+key_font_type = join('Font' , 'geek.ttf')
 key_font_size = 50
 key_disp_place = (100,100)
 Key_font_collor = 'yellow'
@@ -78,9 +80,9 @@ Key_font_collor = 'yellow'
 END_SCREEN_BG_COLOR = 'black'
 END_SCREEN_FONT = None
 END_FONT_SIZE = 50
-END_FONT_POOS = (WIN_WIDTH/2-100,WIN_HEIGHT/2)
-END_SCREEN_COLOR = '#E6E6FA'
-END_SCREEN_BG = pygame.image.load(join('images' , 'Backgrounds' , 'End screen bg.jpg'))
+END_FONT_POOS = (WIN_WIDTH/2-150,WIN_HEIGHT/2-150)
+END_SCREEN_COLOR = 'black'
+END_SCREEN_BG = pygame.image.load(join('images' , 'Backgrounds' , 'end_screen_bg.bmp'))
 
 
 
@@ -106,8 +108,12 @@ DEATH_FONT_COLOR = 'red'
 BET_SCREEN_FONT_FILE = None
 BET_FONT_SIZE = 50
 BET_FONT_POS = (WIN_WIDTH/2,WIN_HEIGHT/2)
-BET_FONT_COLOR = 'White'
+BET_FONT_COLOR = 'white'
 BET_IMAGE = pygame.image.load(join('Data' , 'BET' , 'bet.png'))
 
 
+# story
+STORY_FONT = join('Font' , 'AngerStyles.ttf')
+STORY_FONT_SIZE = 50
+STORY_FONT_COLOR = 'black'
 

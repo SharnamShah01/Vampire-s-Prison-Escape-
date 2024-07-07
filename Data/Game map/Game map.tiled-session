@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/title screen/Title screen.tmx",
+    "activeFile": "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/Dungeon_map.tmx",
     "expandedProjectPaths": [
     ],
     "exportAsImage.drawTileGrid": true,
@@ -12,11 +12,11 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/Dungeon_map.tmx": {
-            "scale": 0.33,
+            "scale": 1,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 1280.3030303030305,
-                "y": 801.5151515151515
+                "x": 1733.5,
+                "y": 867.5
             }
         },
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/tsx files dungeon/Dungeion ground.tsx": {
@@ -54,8 +54,8 @@
             "scale": 0.7402083333333334,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 720.7430340557275,
-                "y": 559.9774838164931
+                "x": 719.3920630453139,
+                "y": 558.6265128060794
             }
         },
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Forest map/tsx files/Cliff.tsx": {
@@ -119,25 +119,29 @@
             "scale": 1,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 469.5,
-                "y": 394.5
+                "x": 512.5,
+                "y": 384.5
             }
         },
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/title screen/new title.tmx": {
             "scale": 1,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 655.5,
-                "y": 360.5
+                "x": 599.5,
+                "y": 328.5
             }
         },
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/title screen/tsx files/DUN NEW.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/title screen/tsx files/Dungeon ground.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1
+        },
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/images/Backgrounds/end screen/tsx files/dun guard.tsx": {
+            "dynamicWrapping": true
         },
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/images/Vampire/tsx files/Sheet.tsx": {
             "scaleInDock": 1.5,
@@ -188,7 +192,7 @@
         }
     },
     "last.exportedFilePath": "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/title screen",
-    "last.imagePath": "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Forest map",
+    "last.imagePath": "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/images/Vampire",
     "map.fixedSize": true,
     "map.height": 41,
     "map.lastUsedExportFilter": "All Files (*)",
@@ -218,10 +222,10 @@
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Forest map/tsx files/Trees.tsx",
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Forest map/tsx files/Trees 2.tsx",
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Forest map/tsx files/ground 32 final.tsx",
-        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/Dungeon_map.tmx",
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/title screen/tsx files/DUN NEW.tsx",
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/title screen/new title.tmx",
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/title screen/Title screen.tmx",
+        "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Dungeon map/Dungeon Tiles/Dungeon_map.tmx",
         "C:/Users/sharn/CLionProjects/untitled/OWN PROJECTS/Vampire-s-Prison-Escape-/Data/Forest map/tsx files/Ground 32.tsx"
     ],
     "resizeMap.removeObjects": false,
@@ -231,5 +235,5 @@
         "height": 16,
         "width": 16
     },
-    "tileset.type": 0
+    "tileset.type": 1
 }

@@ -42,6 +42,8 @@ class BloodThrow(pygame.sprite.Sprite):
                 self.folder = 'down'
             if player.folder == 'stand left':
                 self.folder = 'left'
+            if player.folder == 'bat':
+                self.folder = 'up'
 
 
 
@@ -274,13 +276,29 @@ class PlayerSprite(Sprite):
                     dun_enemy_sound.play()
                     
     def health_bar(self,display_at):
+        if self.forest == True:
+            PLAYER_HEALTH_COLOR = 'black'
+        if self.forest == False:
+            PLAYER_HEALTH_COLOR = 'white'
+
+
         ratio = self.health/PLAYER_HEALTH
-        health_font = pygame.font.Font(None,PLAYER_FONT_SIZE)
+        health_font = pygame.font.Font(PLAYER_HEALTH_FONT,PLAYER_FONT_SIZE)
         health_surf = health_font.render('Health',True,PLAYER_HEALTH_COLOR)
         health_rect = health_surf.get_frect(topleft = PLAYER_HEALTH_FONT_POS)
         display_at.blit(health_surf,health_rect)
-        pygame.draw.rect(display_at, 'red' , (190,38,100,5))
-        pygame.draw.rect(display_at, 'green' , (190,38,100*ratio,5))
+        pygame.draw.rect(display_at, 'red' , (250,38,100,5))
+        pygame.draw.rect(display_at, 'green' , (250,38,100*ratio,5))
+
+
+        bat_ratio = min((pygame.time.get_ticks() - self.bat_at_time)/self.bat_cooldown,1)
+        bat_surf = health_font.render('Bat Power',True,PLAYER_HEALTH_COLOR)
+        bat_rect = bat_surf.get_frect(topleft = (PLAYER_HEALTH_FONT_POS[0],PLAYER_HEALTH_FONT_POS[1] + 34))
+        display_at.blit(bat_surf,bat_rect)
+        pygame.draw.rect(display_at, 'white' , (334,72,100,5))
+        pygame.draw.rect(display_at, 'blue' , (334,72,100*bat_ratio,5))
+
+    
 
     def update(self,dt):
         self.input()
