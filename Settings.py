@@ -16,7 +16,7 @@ BG_COLOR = '#4F3A60'
 
 
 # instruction
-instruc_font = join('Font' , 'INTRU_FONT.ttf')
+instruc_font = join('assests' ,'Font' , 'INTRU_FONT.ttf')
 instruc_font_size = 50
 instru_font_color = 'white'
 instru_pos = (WIN_WIDTH/2 -500,WIN_HEIGHT/2+100)
@@ -38,7 +38,7 @@ BLOOD_THROW_SPEED = 250
 BLOOD_THROW_DAMAGE = 3
 
 
-PLAYER_HEALTH_FONT = join('Font' , 'geek.ttf')
+PLAYER_HEALTH_FONT = join('assests' ,'Font' , 'geek.ttf')
 PLAYER_FONT_SIZE = 40
 PLAYER_HEALTH_FONT_POS = (100,30)
 PLAYER_HEALTH_COLOR = 'white'
@@ -69,7 +69,7 @@ DUN_ATTACK_COOLDOWN = 400
 
 
 # keys
-key_font_type = join('Font' , 'geek.ttf')
+key_font_type = join('assests' ,'Font' , 'geek.ttf')
 key_font_size = 50
 key_disp_place = (100,100)
 Key_font_collor = 'yellow'
@@ -82,13 +82,13 @@ END_SCREEN_FONT = None
 END_FONT_SIZE = 50
 END_FONT_POOS = (WIN_WIDTH/2-150,WIN_HEIGHT/2-150)
 END_SCREEN_COLOR = 'black'
-END_SCREEN_BG = pygame.image.load(join('images' , 'Backgrounds' , 'end_screen_bg.bmp'))
+END_SCREEN_BG = pygame.image.load(join('assests' ,'images' , 'Backgrounds' , 'end_screen_bg.bmp'))
 
 
 
 # title screen
 TITLE_SCREEN_pos = (WIN_WIDTH/2,WIN_HEIGHT/2+3)
-TITLE_SCREEN_FONT = join('Font', 'TITLE_SCREEN_FONT.ttf')
+TITLE_SCREEN_FONT = join('assests' ,'Font', 'TITLE_SCREEN_FONT.ttf')
 TITLE_SCREEN_FONT_SIZE = 80
 TITLE_SCREEN_FONT_POS = (WIN_WIDTH/2-200,WIN_HEIGHT/2)
 TITLE_SCREEN_PLAY_POS = (WIN_WIDTH/2-200,WIN_HEIGHT/2+100)
@@ -98,7 +98,7 @@ PLAY_COLOR = 'black'
 
 
 # DEATH SCREEN
-DEATH_FONT = join('Font', 'DEATH_FONT.ttf')
+DEATH_FONT = join('assests' ,'Font', 'DEATH_FONT.ttf')
 DEATH_FONT_SIZE = 100
 DEATH_FONT_POS = (WIN_WIDTH/2,WIN_HEIGHT/2)
 DEATH_FONT_COLOR = 'red'
@@ -109,11 +109,11 @@ BET_SCREEN_FONT_FILE = None
 BET_FONT_SIZE = 50
 BET_FONT_POS = (WIN_WIDTH/2,WIN_HEIGHT/2)
 BET_FONT_COLOR = 'white'
-BET_IMAGE = pygame.image.load(join('Data' , 'BET' , 'bet.png'))
+BET_IMAGE = pygame.image.load(join('assests' ,'Data' , 'BET' , 'bet.png'))
 
 
 # story
-STORY_FONT = join('Font' , 'AngerStyles.ttf')
+STORY_FONT = join('assests' ,'Font' , 'AngerStyles.ttf')
 STORY_FONT_SIZE = 50
 STORY_FONT_COLOR = 'black'
 

@@ -1,4 +1,3 @@
-import pygame
 from Settings import *
 from random import choice
 
@@ -17,7 +16,7 @@ class TREESprtite(pygame.sprite.Sprite):
 class BloodThrow(pygame.sprite.Sprite):
     def __init__(self,pos,groups,player):
         super().__init__(groups)
-        self.image = pygame.image.load(join('images','Vampire', 'blood charge','down','0.png'))
+        self.image = pygame.image.load(join('assests' ,'images','Vampire', 'blood charge','down','0.png'))
         self.rect = self.image.get_frect(center = pos)
         
         self.speed = BLOOD_THROW_SPEED
@@ -53,7 +52,7 @@ class BloodThrow(pygame.sprite.Sprite):
         
 
         self.frames += 5*dt
-        self.image = pygame.image.load(join('images','Vampire', 'blood charge',self.folder,f'{int(self.frames % 3)}.png'))
+        self.image = pygame.image.load(join('assests' ,'images','Vampire', 'blood charge',self.folder,f'{int(self.frames % 3)}.png'))
         self.rect = self.image.get_frect(center = self.rect.center)
 
 
@@ -81,7 +80,7 @@ class BloodThrow(pygame.sprite.Sprite):
 class DinoSprite(pygame.sprite.Sprite):
     def __init__(self,groups,pos,player,collision_sprites):
         super().__init__(groups)
-        self.image = pygame.image.load(join('images', 'Dino', 'left','0.png'))
+        self.image = pygame.image.load(join('assests' ,'images', 'Dino', 'left','0.png'))
         self.pos = choice(pos)
         self.rect = self.image.get_frect(center = self.pos)
 
@@ -118,7 +117,7 @@ class DinoSprite(pygame.sprite.Sprite):
             self.folder = 'left'
 
         self.frames += 5*dt
-        self.image = pygame.image.load(join('images', 'Dino', self.folder,f'{int(self.frames%3)}.png'))
+        self.image = pygame.image.load(join('assests' ,'images', 'Dino', self.folder,f'{int(self.frames%3)}.png'))
         self.rect = self.image.get_frect(center = self.rect.center)
 
     def collision(self,direction):
@@ -139,7 +138,7 @@ class DinoSprite(pygame.sprite.Sprite):
 class PlayerSprite(Sprite):
     def __init__(self,pos,groups,collsion_sprtie,enemy_sprites,forest):
         self.folder = 'stand down'
-        self.image = pygame.image.load(join('images', 'Vampire', self.folder, '0.png')).convert_alpha()
+        self.image = pygame.image.load(join('assests' ,'images', 'Vampire', self.folder, '0.png')).convert_alpha()
         self.image = pygame.transform.smoothscale(self.image,Scale_image_by).convert_alpha()
         super().__init__(pos,self.image,groups)
         self.enemy_sprite_group = enemy_sprites
@@ -210,7 +209,7 @@ class PlayerSprite(Sprite):
 
 
         self.frames_index += dt*5
-        self.image = pygame.image.load(join('images', 'Vampire', self.folder, f'{int(self.frames_index%5)}.png'))
+        self.image = pygame.image.load(join('assests' ,'images', 'Vampire', self.folder, f'{int(self.frames_index%5)}.png'))
         self.image = pygame.transform.smoothscale(self.image,Scale_image_by).convert_alpha()
         self.rect = self.image.get_frect(center = self.rect.center)
             
@@ -250,7 +249,7 @@ class PlayerSprite(Sprite):
         mouse_inputs = pygame.mouse.get_pressed()
 
         if (key_inputs[pygame.K_e] or mouse_inputs[0]) and pygame.time.get_ticks() - self.punch_prev>= PLAYER_PUNCH_COOLDOWN :
-                punch_soun = pygame.mixer.Sound(join('sound','punch.mp3'))
+                punch_soun = pygame.mixer.Sound(join('assests' ,'sound','punch.mp3'))
                 punch_soun.play()
 
         for sprite in self.enemy_sprite_group:
@@ -263,18 +262,18 @@ class PlayerSprite(Sprite):
                     if sprite.health <=0:
                         sprite.kill()
                         if self.forest == True:
-                            dino_death = pygame.mixer.Sound(join('sound', 'dino died sound.mp3'))
+                            dino_death = pygame.mixer.Sound(join('assests' ,'sound', 'dino_died_sound.mp3'))
                             dino_death.play()
                             
                         if self.forest == False:
-                            DUN = pygame.mixer.Sound(join('sound' , 'dun death.mp3'))
+                            DUN = pygame.mixer.Sound(join('assests' ,'sound' , 'dun death.mp3'))
                             DUN.play()
                     
                 elif pygame.time.get_ticks() - sprite.prev_attack >= sprite.cooldown and self.is_bat == False:
                     self.health -= sprite.damage
                     self.health = max(0,self.health)
                     sprite.prev_attack = pygame.time.get_ticks()
-                    dun_enemy_sound = pygame.mixer.Sound(join('sound', 'Dun enemy death.mp3'))
+                    dun_enemy_sound = pygame.mixer.Sound(join('assests' ,'sound', 'Dun_enemy_death.mp3'))
                     dun_enemy_sound.play()
                     
     def health_bar(self,display_at):
@@ -376,7 +375,7 @@ class GuardSprite(Sprite):
         
 
         self.frame_index += dt*5
-        self.image = pygame.image.load(join('images', 'Guard', self.folder,f'{int(self.frame_index%4)}.png'))
+        self.image = pygame.image.load(join('assests' ,'images', 'Guard', self.folder,f'{int(self.frame_index%4)}.png'))
         self.rect = self.image.get_frect(center = self.rect.center)
         
         
