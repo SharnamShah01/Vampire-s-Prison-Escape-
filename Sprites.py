@@ -23,6 +23,7 @@ class BloodThrow(pygame.sprite.Sprite):
         self.spawn_time= pygame.time.get_ticks()
         self.lifetime = 2000
         self.frames =0  
+        self.folder = ''
 
         if player.direction.x> 0:
             self.folder = 'right'
