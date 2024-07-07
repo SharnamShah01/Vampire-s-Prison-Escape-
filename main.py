@@ -125,6 +125,8 @@ class Game:
         return False
 
     def End_screen(self):
+
+        
         self.high_score = min(self.escaped_time,self.high_score)
         with open(join('assests' ,'data', 'highsore.txt'),'w') as score_file:
             json.dump(self.high_score,score_file)
@@ -310,7 +312,7 @@ class Game:
         if (key[pygame.K_q] or button[2]) and ( (pygame.time.get_ticks() - self.bloodthrow_prev) >= PLAYER_BLOOD_COOLDDOWN) and self.player.is_bat == False:
             pos = self.player.rect.center
             self.bloodthrow_prev = pygame.time.get_ticks()
-            blood_throw_sound = pygame.mixer.Sound(join('assests' ,'sound', 'blood_throw.mp3'))
+            blood_throw_sound = pygame.mixer.Sound(join('assests' ,'sound', 'blood_throw.ogg'))
             blood_throw_sound.play()
             BloodThrow(pos,(self.Blood_throws,self.all_sprites),self.player)
 
@@ -329,10 +331,10 @@ class Game:
                 for enemy in enemies_hit:
                     enemy.health -= BLOOD_THROW_DAMAGE
                     if self.forest == True:
-                        dino_death = pygame.mixer.Sound(join('assests' ,'sound', 'dino_died_sound.mp3'))
+                        dino_death = pygame.mixer.Sound(join('assests' ,'sound', 'dino_died_sound.ogg'))
                         dino_death.play()
                     if self.forest == False:
-                        DUN = pygame.mixer.Sound(join('assests' ,'sound' , 'dun_death.mp3'))
+                        DUN = pygame.mixer.Sound(join('assests' ,'sound' , 'dun_death.ogg'))
                         DUN.play()
 
     def title_screen(self):
@@ -370,8 +372,8 @@ class Game:
 
         
         if keys[0] and title_screen_play_rect.collidepoint(pygame.mouse.get_pos()):
-            
-            self.game_music = pygame.mixer.Sound(join('assests' ,'sound' , 'game_music.mp3'))
+
+            self.game_music = pygame.mixer.Sound(join('assests' ,'sound' , 'game_music.ogg'))
             self.game_music.set_volume(0.5)
             self.game_music.play(loops = -1)
             
