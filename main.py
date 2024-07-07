@@ -480,158 +480,155 @@ class Game:
 
 
 
-    
-async def main():
-        # def run(self):
-        while game.running:
+    async def run(self):
+        while self.running:
             # dt
-            dt = game.clock.tick()/1000
+            dt = self.clock.tick()/1000
 
             # event 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    game.running = False
+                    self.running = False
                 
-                if event.type == game.enemy_event and game.forest == True and game.end_game == False:
-                    DinoSprite((game.all_sprites,game.enemies_sprites),game.forest_enemy_pos,game.player,game.collision_sprities)
+                if event.type == self.enemy_event and self.forest == True and self.end_game == False:
+                    DinoSprite((self.all_sprites,self.enemies_sprites),self.forest_enemy_pos,self.player,self.collision_sprities)
                     
 
-                if event.type == game.dungeon_enemy_event and game.forest == False and game.end_game == False and game.start_game == True:
-                    game.spawn_Guards()
+                if event.type == self.dungeon_enemy_event and self.forest == False and self.end_game == False and self.start_game == True:
+                    self.spawn_Guards()
 
                 if event.type == pygame.MOUSEWHEEL:
-                    game.all_sprites.zoom_scale += event.y*0.03
+                    self.all_sprites.zoom_scale += event.y*0.03
                     
 
-                if game.forest == True and event.type == game.forest_end_event and game.end_game == False:
-                    game.escaped_time += pygame.time.get_ticks() - game.start_game
-                    game.end_screen_text.append(f'''With Goose's mishap, You escaped prision in: {game.escaped_time/1000} seconds''')
-                    game.end_game = True
+                if self.forest == True and event.type == self.forest_end_event and self.end_game == False:
+                    self.escaped_time += pygame.time.get_ticks() - self.start_game
+                    self.end_screen_text.append(f'''With Goose's mishap, You escaped prision in: {self.escaped_time/1000} seconds''')
+                    self.end_game = True
 
-                if game.start_game == True and game.player.health <=0:
-                    game.died = True
+                if self.start_game == True and self.player.health <=0:
+                    self.died = True
 
-                if game.hint_event:
-                        game.can_disp_hint = True
+                if self.hint_event:
+                        self.can_disp_hint = True
                     
 
 
-            if game.start_game == True and game.died == False:   
-                if game.end_game == False:
+            if self.start_game == True and self.died == False:   
+                if self.end_game == False:
                     # change map: / dungeon disp
-                    if game.forest == False and game.disp_bet == False:
-                        if  game.MER.colliderect(game.player):
+                    if self.forest == False and self.disp_bet == False:
+                        if  self.MER.colliderect(self.player):
                             
                             
-                            game.enemies_sprites.empty()
-                            game.all_sprites.empty()
-                            game.collision_sprities.empty() 
-                            game.enemies_sprites.empty()
-                            game.chest_sprites.empty()
-                            game.door_sprites1.empty()
-                            game.Guard1_rect_group.empty()
-                            game.Blood_throws.empty()
-                            game.instruction_index =0
+                            self.enemies_sprites.empty()
+                            self.all_sprites.empty()
+                            self.collision_sprities.empty() 
+                            self.enemies_sprites.empty()
+                            self.chest_sprites.empty()
+                            self.door_sprites1.empty()
+                            self.Guard1_rect_group.empty()
+                            self.Blood_throws.empty()
+                            self.instruction_index =0
 
                             
                             
-                            game.screen_bet_DUN_and_FOREST()
-                            game.disp_bet = True
+                            self.screen_bet_DUN_and_FOREST()
+                            self.disp_bet = True
                             
 
 
-                        if game.chest_colision():
-                            game.key += 1
+                        if self.chest_colision():
+                            self.key += 1
                             
 
                         # see key_updation
-                        if game.key==1:
-                            game.door1_collilde()
+                        if self.key==1:
+                            self.door1_collilde()
                             
-                    if game.forest == True:
-                        game.collideTree()
-                        game.player.health -= 0.55
+                    if self.forest == True:
+                        self.collideTree()
+                        self.player.health -= 0.55
 
                     
 
                     # update
-                    game.all_sprites.update(dt)
-                    game.blood_enemy_collision()
+                    self.all_sprites.update(dt)
+                    self.blood_enemy_collision()
 
                     # draw  
                     
-                    game.screen.fill(BG_COLOR)
-                    game.all_sprites.draw(game.player.rect.center)
-                    game.player.health_bar(game.screen)
-                    game.blood_throw()
+                    self.screen.fill(BG_COLOR)
+                    self.all_sprites.draw(self.player.rect.center)
+                    self.player.health_bar(self.screen)
+                    self.blood_throw()
                     
 
-                    if game.forest == False and game.disp_bet == False:
-                        game.display_key()
-                        game.door2_collilde()
+                    if self.forest == False and self.disp_bet == False:
+                        self.display_key()
+                        self.door2_collilde()
                         
                     
-                    if game.disp_bet == True:
-                        game.screen_bet_DUN_and_FOREST()
+                    if self.disp_bet == True:
+                        self.screen_bet_DUN_and_FOREST()
 
-                    if game.disp_bet == False:
-                        game.instruction()
+                    if self.disp_bet == False:
+                        self.instruction()
 
-                    if game.can_disp_hint == True and game.player.health < (PLAYER_HEALTH/2 + 10) and game.disp_bet == False and game.became_bat_after_hint == False:
+                    if self.can_disp_hint == True and self.player.health < (PLAYER_HEALTH/2 + 10) and self.disp_bet == False and self.became_bat_after_hint == False:
                         hint_font = pygame.font.Font(instruc_font,instruc_font_size)
                         hint_surf = hint_font.render('''If you are overwhelmed with Enemies,\nPress T to become a BAT\nEnemies WON'T attack you when you are a bat and,\nyou can punch (E) your way out''',True,PLAYER_HEALTH_COLOR)
                         hint_rect = hint_surf.get_frect(topleft = (WIN_WIDTH/2-500,(WIN_HEIGHT/2 + 100)))
-                        game.screen.blit(hint_surf,hint_rect)
+                        self.screen.blit(hint_surf,hint_rect)
 
                         keys = pygame.key.get_pressed()
                         if keys[pygame.K_t]:
-                            game.became_bat_after_hint = True
+                            self.became_bat_after_hint = True
                         
 
                         
 
-                if game.end_game == True:
-                    game.End_screen()
+                if self.end_game == True:
+                    self.End_screen()
                     
                         
                         
                     keys = pygame.key.get_just_pressed()
-                    if keys[pygame.K_SPACE] and game.end_screen_index >= len(game.end_screen_text):
-                        game.running =False
-                        game.all_sprites.empty()
-                        game.collision_sprities.empty()
-                        game.enemies_sprites.empty()
-                        game.chest_sprites.empty()
-                        game.door_sprites1.empty()
-                        game.Guard1_rect_group.empty()
-                        game.Guard_sprites_group.empty()
-                        game.Blood_throws.empty()
-                        game.Tree_group.empty()
-                        game.game_music.stop()
-                        game.__init__()
+                    if keys[pygame.K_SPACE] and self.end_screen_index >= len(self.end_screen_text):
+                        self.running =False
+                        self.all_sprites.empty()
+                        self.collision_sprities.empty()
+                        self.enemies_sprites.empty()
+                        self.chest_sprites.empty()
+                        self.door_sprites1.empty()
+                        self.Guard1_rect_group.empty()
+                        self.Guard_sprites_group.empty()
+                        self.Blood_throws.empty()
+                        self.Tree_group.empty()
+                        self.game_music.stop()
+                        self.__init__()
                         
 
-            if game.start_game == False and game.died == False and game.show_title_screen == True:
-                game.title_screen()
+            if self.start_game == False and self.died == False and self.show_title_screen == True:
+                self.title_screen()
 
-            if game.start_game == False and game.died == False and game.show_title_screen == False:
-                game.game_story()
+            if self.start_game == False and self.died == False and self.show_title_screen == False:
+                self.game_story()
 
-            if game.died == True:
-                game.Death_screen()
+            if self.died == True:
+                self.Death_screen()
 
             
             pygame.display.update() 
 
             await asyncio.sleep(0)
 
-        pygame.quit()
 
-    
+
+        
 
 
 if __name__ == '__main__':
     game = Game()
-    asyncio.run(main())
-    # game.run()
+    asyncio.run(game.run())
     
