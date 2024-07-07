@@ -1,3 +1,4 @@
+import pygame
 from Settings import *
 
 class CameraGroup(pygame.sprite.Group):

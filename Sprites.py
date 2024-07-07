@@ -1,3 +1,4 @@
+import pygame
 from Settings import *
 from random import choice
 
